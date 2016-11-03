@@ -1,0 +1,106 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/screen1"
+    android:orientation="vertical"
+    android:scaleType="centerCrop">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <ProgressBar
+            android:id="@+id/progressBarLogin"
+            style="@android:style/Widget.ProgressBar.Inverse"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:indeterminate="false"
+            android:max="100"
+            android:minHeight="50dp"
+            android:minWidth="200dp"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/txtUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/rectangle_shape_white"
+            android:ems="15"
+            android:gravity="center"
+            android:hint="@string/login_emailAddress"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textColorHint="@color/light_grey"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="21dp"
+            android:layout_above="@+id/txtPassword"
+            android:layout_alignStart="@+id/txtPassword" />
+
+        <EditText
+            android:id="@+id/txtPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/rectangle_shape_white"
+            android:ems="15"
+            android:gravity="center"
+            android:hint="@string/login_password"
+            android:inputType="textPassword"
+            android:textColor="@color/black"
+            android:textColorHint="@color/light_grey"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="142dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/btnSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="82dp"
+            android:background="@drawable/rectangle_shape_red"
+            android:gravity="center"
+            android:text="@string/signIn"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/txtPassword"
+            android:layout_alignEnd="@+id/txtPassword"
+            android:layout_alignStart="@+id/txtPassword" />
+
+        <TextView
+            android:id="@+id/txtOR"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/or"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/btnSignIn"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/btnSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/rectangle_shape_red"
+            android:gravity="center"
+            android:text="@string/signUp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/txtOR"
+            android:layout_alignStart="@+id/btnSignIn"
+            android:layout_alignEnd="@+id/btnSignIn" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

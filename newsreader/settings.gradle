@@ -1,0 +1,2 @@
+include ':androidrss'
+include ':newsreader'
