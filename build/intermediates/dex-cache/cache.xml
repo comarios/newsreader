@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/marios/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/gson-2.2.4-b7d7344c2e642c52508326adfee9451791fef0af.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/libs/jsoup-1.7.3.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ab1f22cadc2f8b514e55ba368f5128056fe304da">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/jsoup-1.7.3-c8df0095f4579184deaa66ee30501254b8803969.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="04de44f90606c77f3b28cf44861f306290505aac">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-5f82b77be68e72cb382406069e6848e9d67883ff.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-aa53c0b34ed81034ec2e5b2c5eb97adf22464b60.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-ac63b8fd9b3d943d9652d7f366078b8287919d0b.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/newsreader/androidrss/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f72ea1e67aa3eff4851ae97cc7939c07ca83ac26">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-ade910ff11d0f075cabe41901211e62732325238.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-2e24544fb85676df69ad20f7322a435649e33e23.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-16b07239fb783c7bbb49b8934c597638ff5bbfd5.jar" />
+    </item>
+    <item
+        jar="/Users/marios/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-f5d7c964b64f708aac2a6dd2b750715d510dd294.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-c858018cb30845a5e184b27a48bb95229244af70.jar" />
+    </item>
+    <item
+        jar="/Users/marios/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/2.2.0/2a95d3e6df137d3369cc479ce7ad77703e430b2b/protobuf-java-2.2.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2a95d3e6df137d3369cc479ce7ad77703e430b2b">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/protobuf-java-2.2.0-b126854d6ae56784630bb20c67ed76a6aff314ef.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/libs/androidmarketapi-0.6.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="928622688feec7ec7adcc3fb7067d69d39e3303c">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/androidmarketapi-0.6-d0f4c91863306af0f7567ea904bbbb5ad34fa320.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-8c1ad4b1f951c069967c376a0571c9a9a790b78a.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/libs/urlimageviewhelper-1.0.4.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="67125d743e0035a1b157ba8210c2abf1ff374e10">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/urlimageviewhelper-1.0.4-f50aa9af5068f4844970c3a60e7c0b0dc173efaf.jar" />
+    </item>
+    <item
+        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-b4b2105118b54897312e3ddc0264b4815f8b319e.jar" />
+    </item>
+
+</items>

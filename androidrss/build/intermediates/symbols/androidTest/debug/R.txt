@@ -1,0 +1,1 @@
+int drawable icon_input_delete3 0x7f020000

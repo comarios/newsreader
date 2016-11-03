@@ -1,0 +1,33 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+    useLibrary 'org.apache.http.legacy'
+    defaultConfig {
+        applicationId "com.ucl.newsreader"
+        minSdkVersion 18
+        targetSdkVersion 23
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            zipAlignEnabled true
+        }
+    }
+}
+
+dependencies {
+    compile project(':androidrss')
+    //compile 'com.android.support:support-v4:19.1.0'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:design:23.0.1'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.google.protobuf:protobuf-java:2.2.0'
+    compile files('libs/androidmarketapi-0.6.jar')
+    compile files('libs/jsoup-1.7.3.jar')
+    compile files('libs/urlimageviewhelper-1.0.4.jar')
+    compile 'com.google.android.gms:play-services-location:8.4.0'
+}

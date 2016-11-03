@@ -1,0 +1,61 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_black"
+    android:orientation="vertical"
+    android:scaleType="centerCrop">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <!-- ENABLE THIS FOR THE VARIANT INTERFACES -->
+
+        <!--<Spinner-->
+        <!--android:id="@+id/adaptiveVariantSpinner"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:entries="@array/adaptive_variants"-->
+        <!--android:prompt="@string/adaptive_variant_prompt" />-->
+        <!-- -->
+        <!--  <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/headerTitle"
+            android:textColor="#000"
+            android:textSize="20sp" />-->
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbarMainActivity"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/habitonews_logo_header"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.ProgressBar.Inverse"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:indeterminate="false"
+                android:max="100"
+                android:visibility="gone" />
+        </android.support.v7.widget.Toolbar>
+
+        <ListView
+            android:id="@+id/mainVerticalList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:divider="@color/grey"
+            android:dividerHeight="1dp" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/activity_main.xml -->
