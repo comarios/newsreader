@@ -280,64 +280,64 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         entriesListView = (ListView) findViewById(R.id.mainVerticalList);
     }
 
-    public void addListenerOnAdaptiveVariants() {
-
-        adaptiveVariantsSpinner = (Spinner) findViewById(R.id.adaptiveVariantSpinner);
-
-        adaptiveVariantsSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView,
-                                       int position, long id) {
-                // TODO Auto-generated method stub
-                String variant = String.valueOf(parentView.getItemAtPosition(position).toString());
+//    public void addListenerOnAdaptiveVariants() {
 //
-                System.out.println("variant: " + variant + " position: " + position);
-
-                if (variant.equals("Trackers")) {
-                    Intent ia = new Intent(getApplicationContext(), MainActivityTrackers.class);
-                    ia.putExtra("ref", "WelcomeScreenCaller");
-                    startActivity(ia);
-                } else if (variant.equals("Reviewers")) {
-                    Intent ib = new Intent(getApplicationContext(), MainActivityReviewers.class);
-                    ib.putExtra("ref", "WelcomeScreenCaller");
-                    startActivity(ib);
-                } else if (variant.equals("Dippers")) {
-                    Intent ic = new Intent(getApplicationContext(), MainActivityDippers.class);
-                    ic.putExtra("ref", "WelcomeScreenCaller");
-                    startActivity(ic);
-                }
-//				switch (position) {
-//				case 1:
-//					Intent ia = new Intent(getApplicationContext(), MainActivityTrackers.class);
-//					ia.putExtra("ref", "WelcomeScreenCaller");
-//					startActivity(ia);
-//					break;
-//				case 2:
-//					Intent ib = new Intent(getApplicationContext(), MainActivityReviewers.class);
-//					ib.putExtra("ref", "WelcomeScreenCaller");
-//					startActivity(ib);
-//					break;
-//				case 3:
-//					Intent ic = new Intent(getApplicationContext(), MainActivityDippers.class);
-//					ic.putExtra("ref", "WelcomeScreenCaller");
-//					startActivity(ic);
-//					break;
-//				default:
-//					Intent ibaseline = new Intent(getApplicationContext(), MainActivity.class);
-//					ibaseline.putExtra("ref", "WelcomeScreenCaller");
-//					startActivity(ibaseline);
-//					break;
-//				}
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-                // TODO Auto-generated method stub
-            }
-        });
-    }
+//        adaptiveVariantsSpinner = (Spinner) findViewById(R.id.adaptiveVariantSpinner);
+//
+//        adaptiveVariantsSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+//
+//            @Override
+//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView,
+//                                       int position, long id) {
+//                // TODO Auto-generated method stub
+//                String variant = String.valueOf(parentView.getItemAtPosition(position).toString());
+////
+//                System.out.println("variant: " + variant + " position: " + position);
+//
+//                if (variant.equals("Trackers")) {
+//                    Intent ia = new Intent(getApplicationContext(), MainActivityTrackers.class);
+//                    ia.putExtra("ref", "WelcomeScreenCaller");
+//                    startActivity(ia);
+//                } else if (variant.equals("Reviewers")) {
+//                    Intent ib = new Intent(getApplicationContext(), MainActivityReviewers.class);
+//                    ib.putExtra("ref", "WelcomeScreenCaller");
+//                    startActivity(ib);
+//                } else if (variant.equals("Dippers")) {
+//                    Intent ic = new Intent(getApplicationContext(), MainActivityDippers.class);
+//                    ic.putExtra("ref", "WelcomeScreenCaller");
+//                    startActivity(ic);
+//                }
+////				switch (position) {
+////				case 1:
+////					Intent ia = new Intent(getApplicationContext(), MainActivityTrackers.class);
+////					ia.putExtra("ref", "WelcomeScreenCaller");
+////					startActivity(ia);
+////					break;
+////				case 2:
+////					Intent ib = new Intent(getApplicationContext(), MainActivityReviewers.class);
+////					ib.putExtra("ref", "WelcomeScreenCaller");
+////					startActivity(ib);
+////					break;
+////				case 3:
+////					Intent ic = new Intent(getApplicationContext(), MainActivityDippers.class);
+////					ic.putExtra("ref", "WelcomeScreenCaller");
+////					startActivity(ic);
+////					break;
+////				default:
+////					Intent ibaseline = new Intent(getApplicationContext(), MainActivity.class);
+////					ibaseline.putExtra("ref", "WelcomeScreenCaller");
+////					startActivity(ibaseline);
+////					break;
+////				}
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parentView) {
+//                // TODO Auto-generated method stub
+//            }
+//        });
+//    }
 
     public void fetchRSS(String searchKey) {
         progress.setVisibility(View.VISIBLE);
