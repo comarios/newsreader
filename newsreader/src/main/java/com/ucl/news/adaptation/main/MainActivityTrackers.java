@@ -5,36 +5,59 @@ import java.util.List;
 import java.util.UUID;
 
 import main.java.org.mcsoxford.rss.RSSItem;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ucl.news.adaptation.adapters.RowsAdapterDippers;
 import com.ucl.news.adaptation.adapters.TrackersFragment;
 import com.ucl.news.adaptation.dao.LatestReadArticlesDAO;
 import com.ucl.news.api.NavigationDAO;
 import com.ucl.news.api.Session;
 import com.ucl.news.data.NewsDbHelper;
+import com.ucl.news.download.BitmapManager;
+import com.ucl.news.main.ArticleActivity;
 import com.ucl.news.main.LoginActivity;
 import com.ucl.news.reader.News;
+import com.ucl.news.reader.RSSItems;
 import com.ucl.news.reader.RetrieveFeedTask;
 import com.ucl.news.reader.RetrieveFeedTask.AsyncResponse;
 import com.ucl.news.utils.AutoLogin;
 import com.ucl.news.utils.Dialogs;
 import com.ucl.news.utils.NetworkConnection;
+import com.ucl.news.utils.UriInOut;
 import com.ucl.newsreader.R;
+
+import static com.ucl.news.main.MainActivity.PREFS_NAME;
 
 public class MainActivityTrackers extends FragmentActivity implements AsyncResponse {
 	private LatestReadArticlesDAO mLatestReadArticlesDAO;
@@ -56,30 +79,68 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 	private Intent newsAppsService;
 	public static boolean CallingFromArticleActivity = false;
 	private ViewPager pager;
+	private boolean trackerFlag;
+	private boolean dipperFlag;
+    private ViewGroup trackersLayout;
+    private Button mClearSearchButton;
+    private EditText mSearchBoxEt;
+    public final static String EXTRA_MESSAGE = "com.ucl.news.adapters.EXTRA_MESSAGE";
+    private MainActivityTrackers.FilteredListAdapter mFilteredAdapter;
+    private ListView entriesListView;
+    private RowsAdapterDippers rowsAdapter;
+    private static Context context;
+    private List<RSSItem> trackedItems;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
-		System.out.println("ON create called now2");
-		setContentView(R.layout.viewpager_main_trackers);
+		setContentView(R.layout.tracker_layout);
+
+		//Check which flag is set (search box || tracked articles || none)
+		Intent i = getIntent();
+		trackerFlag = i.getExtras().getBoolean("trackerflag");
+        dipperFlag = i.getExtras().getBoolean("dipperflag");
+        trackersLayout = (ViewGroup) findViewById(R.id.tracker_layout);
+        context = getApplicationContext();
 
 		if (network.haveNetworkConnection()) {
 
-			// Retrieve user class. Implement this for adaptation
-			/**
-			 * IF user is A then IF user is B then IF user is C then
-			 */
+            progress = (ProgressBar) findViewById(R.id.progressBar);
 
-			progress = (ProgressBar) findViewById(R.id.progressBar);
+            pager = (ViewPager)findViewById(R.id.trackers_pager);
 
-			pager = (ViewPager)findViewById(R.id.trackers_pager);
+            news = new ArrayList<News>();
 
-			news = new ArrayList<News>();
-			
-			//Get latest articles
-			mLatestReadArticlesDAO = new LatestReadArticlesDAO(this);
+            //Get latest articles
+            mLatestReadArticlesDAO = new LatestReadArticlesDAO(this);
+
+            //If trackerFlag set, attach tracked articles view to base layout
+            if(trackerFlag){
+				RelativeLayout rl = (RelativeLayout)findViewById(R.id.trackers_lay);
+				RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)rl.getLayoutParams();
+                params.addRule(RelativeLayout.BELOW, R.id.tracked_articles_placeholder);
+				rl.setLayoutParams(params);
+
+                View trackerTop = LayoutInflater.from(this).inflate(R.layout.top_static_tracker, trackersLayout, false);
+                trackersLayout.addView(trackerTop);
+            }
+
+            //If dipperFlag set, attach search box view to base layout
+            if(dipperFlag){
+                RelativeLayout rl = (RelativeLayout)findViewById(R.id.trackers_lay);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)rl.getLayoutParams();
+                params.topMargin = 165;
+                rl.setLayoutParams(params);
+
+				View dipperTop = LayoutInflater.from(this).inflate(R.layout.top_static_dipper, trackersLayout, false);
+				trackersLayout.addView(dipperTop);
+                mClearSearchButton = (Button) findViewById(R.id.clear_search_et);
+                mSearchBoxEt = (EditText) findViewById(R.id.searchText);
+                mSearchBoxEt.addTextChangedListener(mTextChangeListener);
+            }
+
 			// if(!AutoLogin.getIsLoggedIN(AutoLogin.getSettingsFile(getApplicationContext())))
 			fetchRSS("*");
 			CallingFromArticleActivity = false;
@@ -169,6 +230,28 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 		asyncTask.delegate = (com.ucl.news.reader.RetrieveFeedTask.AsyncResponse) MainActivityTrackers.this;
 	}
 
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.clear_search_et:
+                // Clear search box
+                mSearchBoxEt.setText("");
+                // Close keyboard
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mSearchBoxEt.getWindowToken(), 0);
+                pager.setAdapter(new ArticlesPagerAdapter(getSupportFragmentManager(), news));
+                // Refresh articles
+                entriesListView.setVisibility(View.GONE);
+                //pager.setAdapter(new ArticlesPagerAdapter(getSupportFragmentManager(), news));
+                //rowsAdapter.clear();
+                findViewById(R.id.header).setVisibility(View.GONE);
+                fetchRSS("*");
+                break;
+            default:
+                break;
+        }
+    }
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -181,7 +264,18 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_sync:
-
+            if(dipperFlag){
+                // Clear search box
+                mSearchBoxEt.setText("");
+                // Close keyboard
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mSearchBoxEt.getWindowToken(), 0);
+                // Refresh articles
+                //entriesListView.setAdapter(rowsAdapter);
+                //rowsAdapter.clear();
+                findViewById(R.id.header).setVisibility(View.GONE);
+            }
 			fetchRSS("*");
 			return true;
 		case R.id.action_logout:
@@ -208,7 +302,10 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 			}
 		}
 
-		updateLatestReadArticles();
+		if(trackerFlag) updateLatestReadArticles();
+        if(dipperFlag) {
+            findViewById(R.id.header).setVisibility(View.VISIBLE);
+        }
 		progress.setVisibility(View.INVISIBLE);
 	}
 
@@ -273,10 +370,9 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 			.println("resume from articleactivity, do not update session");
 		}
 		
-		updateLatestReadArticles();
+		if(trackerFlag) updateLatestReadArticles();
 	}
 	
-	// UPDATE TRACKER (latest read) ARTICLES
 	private void updateLatestReadArticles() {
 		if (news.size() == 0)return;
 
@@ -293,31 +389,38 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 			return;
 		}
 
-		List<RSSItem> items = new ArrayList<RSSItem>();
+		trackedItems = new ArrayList<RSSItem>();
 		List<String> addToCarousel = new ArrayList<String>();
 		for (News category : news) {
 			for (RSSItem item : category.getContent()) {
 				if (isInSet(item.getTitle(), latestReadArticles) &&
 						!isInSet(item.getTitle(), addToCarousel)) {
-					
-					items.add(item);
+
+					trackedItems.add(item);
 					addToCarousel.add(item.getTitle());
-					Log.d("MainActivityTrackers", item.getTitle());
 				}
 			}
 		}
-		
+
 		List<News> newsHack = new ArrayList<News>();
-		newsHack.add(new News("Tracked Articles", items));
-		
+		newsHack.add(new News("Tracked Articles", trackedItems));
+
 		ListView lv = (ListView)findViewById(R.id.tracked_articles);
 		lv.setAdapter(new RowsAdapterDippers(this,
 				R.layout.viewpager_main_dippers,
 				newsHack, false));
-		
-		// SHOW TEXT IF NO ARTICLES in viewpager_main_trackers.xml
+
 		findViewById(R.id.no_articles_message).setVisibility(View.GONE);
-		
+
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		Gson gson = new GsonBuilder()
+				.registerTypeAdapter(Uri.class, new UriInOut())
+				.create();
+		editor.putBoolean("trackerFlag", trackerFlag);
+		editor.putString("trackedArticles", gson.toJson(trackedItems));
+		editor.commit();
+
 		lv.setVisibility(View.VISIBLE);
 	}
 
@@ -348,5 +451,180 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 			return newsList.size();
 		}
 	}
+
+    private TextWatcher mTextChangeListener = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // Nothing to do
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+            // Nothing to do
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if (s.length() > 0)
+                mClearSearchButton.setVisibility(View.VISIBLE);
+            else {
+                mClearSearchButton.setVisibility(View.GONE);
+                //entriesListView.setAdapter(rowsAdapter);
+            }
+
+            String[] keywords = s.toString().trim().split(" ");
+
+
+            List<RSSItem> filteredItems = new ArrayList<RSSItem>();
+            for (News category : news) {
+                for (RSSItem item : category.getContent()) {
+                    if (item.matches(keywords)) {
+                        //We make sure that the item is only added once
+                        //based on the items title, tho
+                        if (!existInSet(item, filteredItems))
+                            filteredItems.add(item);
+                    }
+                }
+            }
+
+            entriesListView = (ListView) findViewById(R.id.mainVerticalList);
+            mFilteredAdapter = new MainActivityTrackers.FilteredListAdapter(MainActivityTrackers.this, filteredItems);
+            pager.setAdapter(null);
+            entriesListView.setVisibility(View.VISIBLE);
+            entriesListView.setAdapter(mFilteredAdapter);
+        }
+    };
+
+    private boolean existInSet(RSSItem toAdd, List<RSSItem> set) {
+        for (RSSItem item : set) {
+            if (item.getTitle().equals(toAdd.getTitle()))
+                return true;
+        }
+
+        return false;
+    }
+
+    private static class FilteredListAdapter extends BaseAdapter {
+
+        private Context mContext;
+        private List<RSSItem> mItems;
+        private ArrayList<String> imgURLs = new ArrayList<String>();
+
+        public FilteredListAdapter(Context context, List<RSSItem> items) {
+            mContext = context;
+            mItems = items;
+
+            for (int i = 0; i < mItems.size(); i++) {
+                if (!mItems.get(i).getThumbnails().isEmpty()) {
+
+                    if (mItems.get(i).getThumbnails().get(0).getUrl().toString() != null) {
+                        imgURLs.add(mItems.get(i).getThumbnails().get(0).getUrl()
+                                .toString());
+                    }
+                }
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return mItems.size();
+        }
+
+        @Override
+        public RSSItem getItem(int position) {
+            return mItems.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                LayoutInflater inflater = LayoutInflater.from(mContext);
+                convertView = inflater.inflate(R.layout.filtered_list_item, parent, false);
+
+                MainActivityTrackers.FilteredListAdapter.ViewHolder viewHolder = new MainActivityTrackers.FilteredListAdapter.ViewHolder();
+                viewHolder.iconView = (ImageView) convertView.findViewById(R.id.image);
+                viewHolder.topText = (TextView) convertView.findViewById(R.id.title);
+                viewHolder.contentPreview = (TextView) convertView.findViewById(R.id.preview_content);
+
+                convertView.setTag(viewHolder);
+            }
+
+            MainActivityTrackers.FilteredListAdapter.ViewHolder viewHolder = (MainActivityTrackers.FilteredListAdapter.ViewHolder) convertView.getTag();
+            TextView title = viewHolder.topText;
+            ImageView image = viewHolder.iconView;
+            TextView previewContent = viewHolder.contentPreview;
+
+            final RSSItem item = getItem(position);
+
+            title.setText(item.getTitle());
+
+            if (!item.getThumbnails().isEmpty()) {
+                // imageLoader.DisplayImage(rssItems.get(position)
+                // .getThumbnails().get(1).getUrl().toString(),
+                // holder.iconView);
+                BitmapManager.INSTANCE.loadBitmap(imgURLs.get(position),
+                        image, 230, 150);
+            }
+
+            String desc;
+            if (item.getDescription().length() >= 100) {
+                desc = item.getDescription().substring(0, 90) + "...";
+            } else {
+                desc = item.getDescription();
+            }
+            previewContent.setText(desc);
+
+            // GO TO ARTICLE AFTER SEARCH
+            viewHolder.iconView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    // Toast.makeText(context,"Clicked item at: "+ cPos ,
+                    // Toast.LENGTH_LONG)
+                    // .show();
+
+
+
+
+                    // Set the flag of switching activity
+
+
+                    MainActivityTrackers.activitySwitchFlag = true;
+                    Intent intent = new Intent(context, ArticleActivity.class);
+
+                    // navDAO.setOrderID(orderID)
+                    // Toast.makeText(context,"Content: "+
+                    // rssItems.get(cPos).getTitle() , Toast.LENGTH_LONG)
+                    // .show();
+                    RSSItems rss = new RSSItems(item.getTitle(),
+                            item.getLink().toString());
+                    intent.putExtra(EXTRA_MESSAGE, rss);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+//					intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    context.startActivity(intent);
+                }
+
+            });
+
+            return convertView;
+        }
+
+        private static class ViewHolder {
+            public ImageView iconView;
+            public TextView topText;
+            public TextView contentPreview;
+        }
+    }
 
 }

@@ -48,4 +48,4 @@
         android:gravity="center_vertical"
         android:orientation="vertical" />
 
-</LinearLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/settings.xml -->
+</LinearLayout>

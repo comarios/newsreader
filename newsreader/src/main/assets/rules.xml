@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<rules>
+    <rule>
+        <name>rule7</name>
+        <trackerPercent>80-100</trackerPercent>
+        <reviewerPercent>5-10</reviewerPercent>
+        <dipperPercent>0-5</dipperPercent>
+        <features>
+            <feature>trackerTop</feature>
+            <feature>trackerLayout</feature>
+            <feature>paragraphSummary</feature>
+            <feature>colourGradient</feature>
+            <feature>relatedArticles</feature>
+        </features>
+    </rule>
+
+    <rule>
+        <name>rule8</name>
+        <trackerPercent>0-15</trackerPercent>
+        <reviewerPercent>60-80</reviewerPercent>
+        <dipperPercent>0-5</dipperPercent>
+        <features>
+            <feature>trackerTop</feature>
+            <feature>reviewerLayout</feature>
+            <feature>highlightedTerms</feature>
+            <feature>colourGradient</feature>
+            <feature>relatedArticles</feature>
+        </features>
+    </rule>
+
+    <rule>
+        <name>rule9</name>
+        <trackerPercent>95-100</trackerPercent>
+        <reviewerPercent>0-5</reviewerPercent>
+        <dipperPercent>0-5</dipperPercent>
+        <features>
+            <feature>trackerTop</feature>
+            <feature>dipperLayout</feature>
+            <feature>highlightedTerms</feature>
+            <feature>accordionInfo</feature>
+            <feature>relatedArticles</feature>
+        </features>
+    </rule>
+
+    <rule>
+        <name>rule10</name>
+        <trackerPercent>0-5</trackerPercent>
+        <reviewerPercent>95-100</reviewerPercent>
+        <dipperPercent>0-5</dipperPercent>
+        <features>
+            <feature>trackerTop</feature>
+            <feature>dipperLayout</feature>
+            <feature>highlightedTerms</feature>
+            <feature>accordionInfo</feature>
+            <feature>relatedArticles</feature>
+        </features>
+    </rule>
+
+    <rule>
+        <name>rule11</name>
+        <trackerPercent>0-5</trackerPercent>
+        <reviewerPercent>0-5</reviewerPercent>
+        <dipperPercent>95-100</dipperPercent>
+        <features>
+            <feature>dipperTop</feature>
+            <feature>dipperLayout</feature>
+            <feature>keywordList</feature>
+            <feature>bulletPointSummary</feature>
+            <feature>originalStory</feature>
+        </features>
+    </rule>
+
+    <rule>
+        <name>rule12</name>
+        <trackerPercent>25-35</trackerPercent>
+        <reviewerPercent>25-35</reviewerPercent>
+        <dipperPercent>25-35</dipperPercent>
+        <features>
+            <feature>trackerTop</feature>
+            <feature>dipperLayout</feature>
+            <feature>highlightedTerms</feature>
+            <feature>accordionInfo</feature>
+            <feature>originalStory</feature>
+        </features>
+    </rule>
+
+    <rule>
+        <name>rule13</name>
+        <trackerPercent>0-10</trackerPercent>
+        <reviewerPercent>30-50</reviewerPercent>
+        <dipperPercent>30-50</dipperPercent>
+        <features>
+            <feature>dipperTop</feature>
+            <feature>reviewerLayout</feature>
+            <feature>keywordList</feature>
+            <feature>accordionInfo</feature>
+            <feature>relatedArticles</feature>
+        </features>
+    </rule>
+</rules>

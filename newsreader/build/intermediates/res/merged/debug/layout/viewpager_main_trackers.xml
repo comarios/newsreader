@@ -47,4 +47,4 @@
         android:minWidth="200dp"
         android:visibility="gone" />
     
-</RelativeLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/viewpager_main_trackers.xml -->
+</RelativeLayout>

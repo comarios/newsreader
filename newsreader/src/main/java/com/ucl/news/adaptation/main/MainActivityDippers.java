@@ -8,6 +8,9 @@ import main.java.org.mcsoxford.rss.RSSItem;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,19 +23,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ucl.news.adaptation.adapters.RowsAdapterDippers;
-import com.ucl.news.api.LoggingNavigationBehavior;
+import com.ucl.news.adaptation.dao.LatestReadArticlesDAO;
 import com.ucl.news.api.NavigationDAO;
 import com.ucl.news.api.Session;
+import com.ucl.news.data.NewsDbHelper;
 import com.ucl.news.download.BitmapManager;
 import com.ucl.news.main.ArticleActivity;
 import com.ucl.news.main.LoginActivity;
@@ -43,8 +49,10 @@ import com.ucl.news.reader.RetrieveFeedTask.AsyncResponse;
 import com.ucl.news.utils.AutoLogin;
 import com.ucl.news.utils.Dialogs;
 import com.ucl.news.utils.NetworkConnection;
-import com.ucl.news.utils.Util;
+import com.ucl.news.utils.UriInOut;
 import com.ucl.newsreader.R;
+
+import static com.ucl.news.main.MainActivity.PREFS_NAME;
 
 public class MainActivityDippers extends Activity implements AsyncResponse {
 
@@ -72,43 +80,76 @@ public class MainActivityDippers extends Activity implements AsyncResponse {
 	// public static File runningAppsFile;
 	// public static File navigationalDataFile;
 	private Intent newsAppsService;
+	private boolean trackerFlag;
+	private boolean dipperFlag;
+	private ViewGroup dippersLayout;
+    private LatestReadArticlesDAO mLatestReadArticlesDAO;
+    private List<RSSItem> trackedItems;
 	
 	public static boolean CallingFromArticleActivity = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-		
-		Log.d(TAG, "MainActivityDippers onCreate");
-		setContentView(R.layout.activity_main_dippers);
+        super.onCreate(savedInstanceState);
 
-		if (network.haveNetworkConnection()) {
+        setContentView(R.layout.dipper_layout);
 
-			progress = (ProgressBar) findViewById(R.id.progressBar);
+		//Check which flag is set (search box || tracked articles || none)
+        Intent i = getIntent();
+        trackerFlag = i.getExtras().getBoolean("trackerflag");
+        dipperFlag = i.getExtras().getBoolean("dipperflag");
+        dippersLayout = (ViewGroup) findViewById(R.id.dipper_layout);
+        mLatestReadArticlesDAO = new LatestReadArticlesDAO(this);
 
-			context = getApplicationContext();
-			int resourceID = R.layout.viewpager_main_dippers;
-			entriesListView = (ListView) findViewById(R.id.mainVerticalList);
-			news = new ArrayList<News>();
-			rowsAdapter = new RowsAdapterDippers(this, resourceID, news, this);
-			entriesListView.setAdapter(rowsAdapter);
+        if (network.haveNetworkConnection()) {
+
+            //If trackerFlag set, attach tracked articles view to base layout
+            if (trackerFlag) {
+                RelativeLayout rl = (RelativeLayout) findViewById(R.id.dippers_lay);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rl.getLayoutParams();
+                params.addRule(RelativeLayout.BELOW, R.id.tracked_articles_placeholder);
+                rl.setLayoutParams(params);
+
+                View trackerTop = LayoutInflater.from(this).inflate(R.layout.top_static_tracker, dippersLayout, false);
+                dippersLayout.addView(trackerTop);
+            }
+
+            //If dipperFlag set, attach search box view to base layout
+            if (dipperFlag) {
+                RelativeLayout rl = (RelativeLayout) findViewById(R.id.content);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rl.getLayoutParams();
+                params.topMargin = 175;
+                rl.setLayoutParams(params);
+                View dipperTop = LayoutInflater.from(this).inflate(R.layout.top_static_dipper, dippersLayout, false);
+                dippersLayout.addView(dipperTop);
+            }
+
+            progress = (ProgressBar) findViewById(R.id.progressBar);
+
+            context = getApplicationContext();
+            int resourceID = R.layout.viewpager_main_dippers;
+            entriesListView = (ListView) findViewById(R.id.mainVerticalList);
+            news = new ArrayList<News>();
+            rowsAdapter = new RowsAdapterDippers(this, resourceID, news, this);
+            entriesListView.setAdapter(rowsAdapter);
 
 			/* Initialise search button */
-			mClearSearchButton = (Button)findViewById(R.id.clear_search_et);
-			mSearchBoxEt = (EditText) findViewById(R.id.searchText);
-			mSearchBoxEt.addTextChangedListener(mTextChangeListener);
-			// if(!AutoLogin.getIsLoggedIN(AutoLogin.getSettingsFile(getApplicationContext())))
-			fetchRSS("*");
-			CallingFromArticleActivity = false;
-		} else {
-			new Dialogs().createDialogINTERNET(MainActivityDippers.this,
-					getApplicationContext());
-		}
+            if (dipperFlag) {
+                mClearSearchButton = (Button) findViewById(R.id.clear_search_et);
+                mSearchBoxEt = (EditText) findViewById(R.id.searchText);
+                mSearchBoxEt.addTextChangedListener(mTextChangeListener);
+            }
+            // if(!AutoLogin.getIsLoggedIN(AutoLogin.getSettingsFile(getApplicationContext())))
+            fetchRSS("*");
+            CallingFromArticleActivity = false;
+        } else {
+            new Dialogs().createDialogINTERNET(MainActivityDippers.this,
+                    getApplicationContext());
+        }
+    }
 
-	}
-
-	public void fetchRSS(String searchKey) {
+    public void fetchRSS(String searchKey) {
 		progress.setVisibility(View.VISIBLE);
 		asyncTask = new RetrieveFeedTask(getApplicationContext(), searchKey);
 		asyncTask.execute("http://feeds.bbci.co.uk/news/rss.xml",
@@ -196,7 +237,10 @@ public class MainActivityDippers extends Activity implements AsyncResponse {
 			}
 		}
 
-		findViewById(R.id.header).setVisibility(View.VISIBLE);
+        if(dipperFlag) {
+            findViewById(R.id.header).setVisibility(View.VISIBLE);
+        }
+        if(trackerFlag) updateLatestReadArticles();
 		progress.setVisibility(View.INVISIBLE);
 	}
 
@@ -260,7 +304,70 @@ public class MainActivityDippers extends Activity implements AsyncResponse {
 			System.out
 					.println("resume from articleactivity, do not update session");
 		}
+
+        if(trackerFlag) updateLatestReadArticles();
 	}
+
+	//this is where I should handle the articles that have been added to the tracker segment
+    private void updateLatestReadArticles() {
+        if (news.size() == 0)return;
+
+        List<String> latestReadArticles = new ArrayList<String>();
+        Cursor cursor = mLatestReadArticlesDAO.getLatestReadArticles(new String[]{NewsDbHelper.LATEST_READ_ARTICLES_TITLE}, 10);
+
+        int nameIndex = cursor.getColumnIndex(NewsDbHelper.LATEST_READ_ARTICLES_TITLE);
+
+        if (cursor.moveToFirst()) {
+            do {
+                latestReadArticles.add(cursor.getString(nameIndex));
+            } while (cursor.moveToNext());
+        } else {
+            return;
+        }
+
+        trackedItems = new ArrayList<RSSItem>();
+        List<String> addToCarousel = new ArrayList<String>();
+        for (News category : news) {
+            for (RSSItem item : category.getContent()) {
+                if (isInSet(item.getTitle(), latestReadArticles) &&
+                        !isInSet(item.getTitle(), addToCarousel)) {
+
+                    trackedItems.add(item);
+                    addToCarousel.add(item.getTitle());
+                }
+            }
+        }
+
+        List<News> newsHack = new ArrayList<News>();
+        newsHack.add(new News("Tracked Articles", trackedItems));
+
+        ListView lv = (ListView)findViewById(R.id.tracked_articles);
+        lv.setAdapter(new RowsAdapterDippers(this,
+                R.layout.viewpager_main_dippers,
+                newsHack, false));
+
+        // SHOW TEXT IF NO ARTICLES in viewpager_main_trackers.xml
+        findViewById(R.id.no_articles_message).setVisibility(View.GONE);
+
+        lv.setVisibility(View.VISIBLE);
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Uri.class, new UriInOut())
+                .create();
+        editor.putBoolean("trackerFlag", trackerFlag);
+        editor.putString("trackedArticles", gson.toJson(trackedItems));
+        editor.commit();
+    }
+
+    private boolean isInSet(String name, List<String> set) {
+        for (String s : set) {
+            if (s.equals(name))return true;
+        }
+
+        return false;
+    }
 
 	//Text Watcher to filter the news as the user types in
 	private TextWatcher mTextChangeListener = new TextWatcher() {
@@ -314,6 +421,22 @@ public class MainActivityDippers extends Activity implements AsyncResponse {
 		
 		return false;
 	}
+
+    public String getCategory(RSSItem item){
+        String link = item.getLink().toString();
+        int index = link.indexOf("news");
+        StringBuilder category = new StringBuilder();
+
+        for (int i = index; i < link.length(); i++) {
+            if (link.charAt(i) != '-') {
+                category.append(link.charAt(i));
+            } else{
+                break;
+            }
+        }
+
+        return category.toString();
+    }
 	
 	private static class FilteredListAdapter extends BaseAdapter {
 
@@ -434,4 +557,26 @@ public class MainActivityDippers extends Activity implements AsyncResponse {
 			public TextView contentPreview;
 		}
 	}
+
+    /*public static class ArticlesPagerAdapter extends FragmentStatePagerAdapter {
+        private List<News> newsList;
+
+        public ArticlesPagerAdapter(FragmentManager fm, List<News> newsList) {
+            super(fm);
+            this.newsList = newsList;
+        }
+
+        @Override
+        public Fragment getItem(int arg0) {
+            return TrackersFragment.newInstance(arg0);
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return newsList.size();
+        }
+    }*/
+
+
 }

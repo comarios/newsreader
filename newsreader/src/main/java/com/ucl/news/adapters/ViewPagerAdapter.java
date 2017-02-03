@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ucl.news.adaptation.dao.LatestReadArticlesDAO;
 import com.ucl.news.api.LoggingNavigationBehavior;
 import com.ucl.news.api.NavigationDAO;
 import com.ucl.news.articles.ArticleWebView;
@@ -201,6 +202,10 @@ public class ViewPagerAdapter extends PagerAdapter {
                 // Set the flag of switching activity
                 MainActivity.activitySwitchFlag = true;
                 Intent intent = new Intent(context, ArticleActivity.class);
+
+                LatestReadArticlesDAO lrad = new LatestReadArticlesDAO(context);
+
+                lrad.insertOrUpdateLatestReadArticle(rssItems.get(cPos).getTitle(), System.currentTimeMillis());
 
                 NavigationDAO navDAO = new NavigationDAO();
                 navDAO.setUserID(AutoLogin.getUserID(AutoLogin

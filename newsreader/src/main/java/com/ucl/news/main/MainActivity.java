@@ -1,84 +1,64 @@
 package com.ucl.news.main;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import main.java.org.mcsoxford.rss.RSSItem;
 
 import android.Manifest;
-import android.R.integer;
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningAppProcessInfo;
-import android.content.ComponentName;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Criteria;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Environment;
-import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.gc.android.market.api.Main;
+import com.ucl.adaptationmechanism.AdaptInterfaceActivity;
+import com.ucl.adaptationmechanism.RuleLoader;
 import com.ucl.news.adaptation.main.MainActivityDippers;
 import com.ucl.news.adaptation.main.MainActivityReviewers;
 import com.ucl.news.adaptation.main.MainActivityTrackers;
 import com.ucl.news.adapters.RowsAdapter;
-import com.ucl.news.api.LoggingNavigationBehavior;
-import com.ucl.news.api.LoggingReadingBehavior;
 import com.ucl.news.api.NavigationDAO;
 import com.ucl.news.api.Session;
-import com.ucl.news.logging.Logger;
 import com.ucl.news.reader.News;
 import com.ucl.news.reader.RetrieveFeedTask;
 import com.ucl.news.reader.RetrieveFeedTask.AsyncResponse;
-import com.ucl.news.services.Constants;
+import com.ucl.news.services.AlarmReceiver;
 import com.ucl.news.services.NewsAppsService;
 import com.ucl.news.utils.AutoLogin;
-import com.ucl.news.utils.Dialogs;
 import com.ucl.news.utils.GPSLocation;
 import com.ucl.news.utils.NetworkConnection;
+import com.ucl.news.utils.Range;
 import com.ucl.newsreader.R;
 
 import android.support.v7.widget.Toolbar;
-import android.support.v7.app.AppCompatActivity;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
@@ -105,7 +85,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     // public static File navigationalDataFile;
     private Intent newsAppsService;
     public static boolean CallingFromArticleActivity = false;
-
+    private PendingIntent pendingIntent;
+    public static List<String> featureList;
+    public static final String PREFS_NAME = "PrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +98,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         initViews();
 
         if (network.haveNetworkConnection()) {
-
-            // Retrieve user class. Implement this for adaptation
-            /**
-             * IF user is A then IF user is B then IF user is C then
-             */
-
 
             news = new ArrayList<News>();
             rowsAdapter = new RowsAdapter(this, R.layout.viewpager_main, news, this);
@@ -161,6 +137,66 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
 
             startService(new Intent(this, NewsAppsService.class));
+
+            /***************ADAPTIVE*****************/
+
+            //Load the rules from rules.xml
+            RuleLoader rl = new RuleLoader(this);
+            List<Float> percentages = new ArrayList<>();
+
+            /**EXAMPLES**/
+            //mutation 1: 0, 50, 50
+            //mutation 2: 2, 2, 96
+            //mutation 3: 15, 80, 5
+            //mutation 4: 33, 33, 34
+
+            float trackerPercent = 33;
+            float reviewerPercent = 33;
+            float dipperPercent = 34;
+
+            boolean trackerTop = false;
+            boolean pushNotifications = false;
+
+            percentages.add(trackerPercent);
+            percentages.add(reviewerPercent);
+            percentages.add(dipperPercent);
+
+            try {
+                List<RuleLoader.Rule> rules = rl.getRules();
+
+                //Compare the rules and stored percentages to find the matching rule
+                RuleLoader.Rule r = matchRule(rules, percentages);
+                featureList = r.getFeatureList();
+
+                //Check if the rule contains a trackerTop and push notifications
+                for (String feature : featureList) {
+                    if (feature.equals("trackerTop")) {
+                        trackerTop = true;
+                    } else if (feature.equals("pushNotifications")) {
+                        pushNotifications = true;
+                    }
+                }
+
+                //If true, set up an alarm every 15 minutes to query news updates
+                if (trackerTop && pushNotifications) {
+                    Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+                    pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+
+                    AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    int interval = 900000; //15 minutes
+
+                    manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+                }
+
+                //Using the feature list from the matched rule, start the adaptation
+                Intent i = new Intent(MainActivity.this, AdaptInterfaceActivity.class);
+                i.putExtra("featureList", r.getFeatureList());
+                startActivity(i);
+
+            } catch (IOException | XmlPullParserException e){
+                e.printStackTrace();
+                //Add snackbar message
+            }
 
             //addListenerOnAdaptiveVariants();
 
@@ -211,6 +247,28 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             noNetworkConnectionError();
         }
 
+    }
+
+    public RuleLoader.Rule matchRule(List<RuleLoader.Rule> rules, List<Float> percentages) {
+        boolean match = true;
+
+        //Iterate through each rule
+        for (RuleLoader.Rule r : rules) {
+            List<Range> ranges = r.getRanges();
+            //Check if every percentage from the user modelling services falls within the range from the rule
+            for (int i = 0; i < 3; i++) {
+                if (!ranges.get(i).contains(percentages.get(i))) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) {
+                return r;
+            } else {
+                match = true;
+            }
+        }
+        return null;
     }
 
     private void turnOnGPS() {
@@ -267,12 +325,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     }
 
     private void initViews() {
-        toolbarMainActivity = (Toolbar) findViewById(R.id.toolbarMainActivity);
+        /*toolbarMainActivity = (Toolbar) findViewById(R.id.toolbarMainActivity);
 //        toolbar.setContentInsetsAbsolute(0,0);
 //        toolbar.setPadding(0,0,0,0);
         setSupportActionBar(toolbarMainActivity);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("");
+        actionBar.setTitle("");*/
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
                 .coordinatorLayout);

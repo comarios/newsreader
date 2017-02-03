@@ -47,6 +47,7 @@ public class RetrieveFeedTask extends
 
 			for (int j = 0; j < NUM_OF_ITEMS; j++) {
 				RSSItem rsstmp = feeds.get(i).getItems().get(j);
+				//Log.v("rssdata", rsstmp.toString());
 				if (rsstmp.getTitle().toLowerCase().contains(searchKey)
 						|| searchKey.equals("*")) {
 					tempRSS.add(rsstmp);

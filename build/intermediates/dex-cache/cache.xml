@@ -2,109 +2,283 @@
 <items version="2" >
 
     <item
-        jar="/Users/marios/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="a60a5e993c98c864010053cb901b7eab25306568">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/gson-2.2.4-b7d7344c2e642c52508326adfee9451791fef0af.jar" />
-    </item>
-    <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/libs/jsoup-1.7.3.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="ab1f22cadc2f8b514e55ba368f5128056fe304da">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/jsoup-1.7.3-c8df0095f4579184deaa66ee30501254b8803969.jar" />
-    </item>
-    <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="04de44f90606c77f3b28cf44861f306290505aac">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-5f82b77be68e72cb382406069e6848e9d67883ff.jar" />
-    </item>
-    <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-aa53c0b34ed81034ec2e5b2c5eb97adf22464b60.jar" />
-    </item>
-    <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-ac63b8fd9b3d943d9652d7f366078b8287919d0b.jar" />
-    </item>
-    <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/newsreader/androidrss/unspecified/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="f72ea1e67aa3eff4851ae97cc7939c07ca83ac26">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-ade910ff11d0f075cabe41901211e62732325238.jar" />
-    </item>
-    <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-2e24544fb85676df69ad20f7322a435649e33e23.jar" />
-    </item>
-    <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-16b07239fb783c7bbb49b8934c597638ff5bbfd5.jar" />
-    </item>
-    <item
-        jar="/Users/marios/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
-        jumboMode="false"
-        revision="23.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-f5d7c964b64f708aac2a6dd2b750715d510dd294.jar" />
-    </item>
-    <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.4.0/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
         revision="23.0.1"
         sha1="a8412b654dab86d57bf90683367488211c8a81f1">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-c858018cb30845a5e184b27a48bb95229244af70.jar" />
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-location-8.4.0_cdcd62d1ae67e7f2a8103f1d25d78c625f4649e0/classes.dex" />
     </item>
     <item
-        jar="/Users/marios/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/2.2.0/2a95d3e6df137d3369cc479ce7ad77703e430b2b/protobuf-java-2.2.0.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/libs/jsoup-1.7.3.jar"
+        jumboMode="true"
+        optimize="true"
         revision="23.0.1"
-        sha1="2a95d3e6df137d3369cc479ce7ad77703e430b2b">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/protobuf-java-2.2.0-b126854d6ae56784630bb20c67ed76a6aff314ef.jar" />
+        sha1="ab1f22cadc2f8b514e55ba368f5128056fe304da">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/2/jsoup-1.7.3_0ce477edae080065a2e581c47b63982a2b4715c1/classes.dex" />
     </item>
     <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/libs/androidmarketapi-0.6.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.0.1_a438f8f033f62041959dfa316a5662e9c9c63766/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/libs/androidmarketapi-0.6.jar"
+        jumboMode="true"
+        optimize="true"
         revision="23.0.1"
         sha1="928622688feec7ec7adcc3fb7067d69d39e3303c">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/androidmarketapi-0.6-d0f4c91863306af0f7567ea904bbbb5ad34fa320.jar" />
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/2/androidmarketapi-0.6_3c53cc804d6497fea4f69917739c22af0266c19d/classes.dex" />
     </item>
     <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/danyaalmasood/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/2.2.0/2a95d3e6df137d3369cc479ce7ad77703e430b2b/protobuf-java-2.2.0.jar"
+        jumboMode="true"
+        optimize="true"
         revision="23.0.1"
-        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-8c1ad4b1f951c069967c376a0571c9a9a790b78a.jar" />
+        sha1="2a95d3e6df137d3369cc479ce7ad77703e430b2b">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/protobuf-java-2.2.0_7a6a79ecced3e372c1f727105b632f3cdaa1bb0f/classes.dex" />
     </item>
     <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/libs/urlimageviewhelper-1.0.4.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
         revision="23.0.1"
-        sha1="67125d743e0035a1b157ba8210c2abf1ff374e10">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/urlimageviewhelper-1.0.4-f50aa9af5068f4844970c3a60e7c0b0dc173efaf.jar" />
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-8.4.0_19c41155d07f177108a57b768ce5b9477ae61801/classes.dex" />
     </item>
     <item
-        jar="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/libs/jsoup-1.7.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="ab1f22cadc2f8b514e55ba368f5128056fe304da">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/2/jsoup-1.7.3_8f446c6531525160eb1fc4d57940d43210131f00/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="04de44f90606c77f3b28cf44861f306290505aac">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-maps-8.4.0_160f0e9af02a92a8e51e7b2ea696bda882021e81/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.0.1_e3594668958cf809f0bf110cbda61f05bb14fbbd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-8.4.0_99c1e040511e6ef28e9190445d0c8968bdd8aa8a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.0.1_d9be82bcbb18609deb212581b6211ffc056b6069/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
         revision="23.0.1"
         sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
-        <dex dex="/Users/marios/AndroidStudioProjects/newsreader/newsreader/build/intermediates/pre-dexed/debug/classes-b4b2105118b54897312e3ddc0264b4815f8b319e.jar" />
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-23.0.1_b1b79b052efdd19ea0be14e596a9415eb8b69f04/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient-android/4.3.5/82edcaec6c7b4599eaeaaf11167ceea41db42f33/httpclient-android-4.3.5.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="82edcaec6c7b4599eaeaaf11167ceea41db42f33">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/httpclient-android-4.3.5_6a96ae0626aa97bd3fb2c293dbb316b4b3e3bee2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/libs/urlimageviewhelper-1.0.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="67125d743e0035a1b157ba8210c2abf1ff374e10">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/2/urlimageviewhelper-1.0.4_a85b7021e1cb42dc591851cea06b1a4a4061859e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.0.1_9cb1657149126d881fdf2c0809465746bd2b61ed/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="caf0bfbccf78708041f1be6afeaafb583dd26573">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_1e0ee26d49c4b0094334e6f60614f14174cf10ab/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="b54cd0783f3218724515249383cc5aebb003b2ae">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_5917420d074c1d4684dd2572134daa86541daf0c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.0.1_9446d7ddc3220d59aefd580aab963466664f7fbc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="2f803c670211f836c29047e0737cbc9d14565659">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_208691fbd613aed154a085c6b85ae6e97cb62831/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/libs/urlimageviewhelper-1.0.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="67125d743e0035a1b157ba8210c2abf1ff374e10">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/2/urlimageviewhelper-1.0.4_170d41a2cb7775270da8e65d51619c1cb9dfbc15/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/exploded-aar/com.android.volley/volley/1.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.volley-volley-1.0.0_36aa64dec844ee88ffdd060e46a36ee5cd0b112a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.0.1_2649d633605eb55c9ffda3fe6f1df568a8076c69/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-location-8.4.0_b24264a21a3c64a0f4f5cc0ee42af91d7538c05d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="456066d160f42c113504b330d251cd844a45aaf4">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_9e35bf3e765e8a03d8fcfabb95987adfd7d8544b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.0.1_fec933691870c39d34c6c9f44912ee16b564ccf5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-23.0.1_c27fbb1ca5d3d3ee989b8d37576172fff77a6833/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/libs/androidmarketapi-0.6.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="928622688feec7ec7adcc3fb7067d69d39e3303c">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/2/androidmarketapi-0.6_f3d534de331f1727271012d924cf93776c05950f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="/Users/danyaalmasood/Desktop/UCL/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-8.4.0_2a8d38075232dd78aedadd6a479bb7d5e9224697/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-8.4.0_0de2ef0c50f9697607e520cea1788d9d40a7db4a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Applications/Android Studio.app/Contents/gradle/m2repository/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="a60a5e993c98c864010053cb901b7eab25306568">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.2.4_d0ce76b63ce905fbab3c5d385c8e1b8692010f19/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.1"
+        sha1="04de44f90606c77f3b28cf44861f306290505aac">
+        <dex dex="/Users/danyaalmasood/Desktop/newsreader/newsreader/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-maps-8.4.0_7f9a6acde8e2a136e9380b700b9f800011493873/classes.dex" />
     </item>
 
 </items>
