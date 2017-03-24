@@ -60,20 +60,20 @@
         android:layout_height="fill_parent"
         android:layout_below="@id/tab_layout"/>
 
-    <!--TextView
+    <TextView
         android:id="@+id/headerArticleTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_below="@+id/tab_layout"
         android:textColor="@color/steelblue2"
-        android:textSize="20sp" /-->
+        android:textSize="20sp" />
 
-    <!--com.ucl.news.articles.ArticleWebView
+    <com.ucl.news.articles.ArticleWebView
         android:id="@+id/webViewArticleStory"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/tab_layout"/-->
+        android:layout_below="@+id/tab_layout"/>
 
         <!--android:layout_marginTop="60dp"-->
 

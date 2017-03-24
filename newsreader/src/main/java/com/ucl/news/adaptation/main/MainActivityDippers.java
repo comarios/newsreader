@@ -121,6 +121,7 @@ public class MainActivityDippers extends Activity implements AsyncResponse {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) rl.getLayoutParams();
                 params.topMargin = 175;
                 rl.setLayoutParams(params);
+
                 View dipperTop = LayoutInflater.from(this).inflate(R.layout.top_static_dipper, dippersLayout, false);
                 dippersLayout.addView(dipperTop);
             }
@@ -240,7 +241,9 @@ public class MainActivityDippers extends Activity implements AsyncResponse {
         if(dipperFlag) {
             findViewById(R.id.header).setVisibility(View.VISIBLE);
         }
-        if(trackerFlag) updateLatestReadArticles();
+        if(trackerFlag) {
+            updateLatestReadArticles();
+        }
 		progress.setVisibility(View.INVISIBLE);
 	}
 
@@ -305,10 +308,11 @@ public class MainActivityDippers extends Activity implements AsyncResponse {
 					.println("resume from articleactivity, do not update session");
 		}
 
-        if(trackerFlag) updateLatestReadArticles();
+        if(trackerFlag) {
+            updateLatestReadArticles();
+        }
 	}
 
-	//this is where I should handle the articles that have been added to the tracker segment
     private void updateLatestReadArticles() {
         if (news.size() == 0)return;
 

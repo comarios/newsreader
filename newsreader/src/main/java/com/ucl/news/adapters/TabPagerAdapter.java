@@ -1,14 +1,14 @@
-package com.ucl.news.main;
-
-/**
- * Created by danyaalmasood on 15/12/2016.
- */
+package com.ucl.news.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
+
+import com.ucl.news.main.LevelOneTab;
+import com.ucl.news.main.LevelThreeTab;
+import com.ucl.news.main.LevelTwoTab;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
     int mNumOfTabs;

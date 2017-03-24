@@ -3,7 +3,6 @@ package com.ucl.adaptationmechanism;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.ViewGroup;
 
 import com.ucl.news.adaptation.main.MainActivityDippers;
 import com.ucl.news.adaptation.main.MainActivityReviewers;
@@ -58,33 +57,6 @@ public class AdaptInterfaceActivity extends AppCompatActivity {
                 default:
                     readingLevel.add(s);
                     break;
-                /*case "paragraphSummary":
-                    readingLevel.add(s);
-                    break;
-                case "highlightedTerms":
-                    createReviewerLayout();
-                    break;
-                case "wordcloud":
-                    createReviewerLayout();
-                    break;
-                case "keywordList":
-                    createReviewerLayout();
-                    break;
-                case "colourGradient":
-                    createReviewerLayout();
-                    break;
-                case "AccordionInfo":
-                    createReviewerLayout();
-                    break;
-                case "bulletPointSummary":
-                    createReviewerLayout();
-                    break;
-                case "relatedArticles":
-                    createReviewerLayout();
-                    break;
-                case "originalStory":
-                    createReviewerLayout();
-                    break;*/
             }
 
         }

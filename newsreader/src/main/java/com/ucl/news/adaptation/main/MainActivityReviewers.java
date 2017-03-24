@@ -289,11 +289,12 @@ implements AsyncResponse, OnCategoryItemClickListener {
 			}
 		}
 
-        //if(trackerFlag) updateLatestReadArticles();
         if(dipperFlag) {
             findViewById(R.id.header).setVisibility(View.VISIBLE);
         }
-		if(trackerFlag) updateLatestReadArticles();
+		if(trackerFlag) {
+            updateLatestReadArticles();
+        }
 		progress.setVisibility(View.GONE);
 	}
 	
@@ -384,7 +385,9 @@ implements AsyncResponse, OnCategoryItemClickListener {
 			System.out
 					.println("resume from articleactivity, do not update session");
 		}
-        if(trackerFlag) updateLatestReadArticles();
+        if(trackerFlag) {
+            updateLatestReadArticles();
+        }
 	}
 
     private void updateLatestReadArticles() {

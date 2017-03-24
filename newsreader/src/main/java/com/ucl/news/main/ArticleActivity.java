@@ -1,53 +1,33 @@
 package com.ucl.news.main;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.google.gson.Gson;
+import com.ucl.news.adapters.TabPagerAdapter;
 import com.ucl.news.adapters.ViewPagerAdapter;
 import com.ucl.news.api.ArticleDAO;
-import com.ucl.news.api.LoggingReadingBehavior;
-import com.ucl.news.api.LoggingReadingScroll;
 import com.ucl.news.articles.ArticleWebView;
 import com.ucl.news.articles.ArticleWebView.OnBottomReachedListener;
 import com.ucl.news.dao.ArticleMetaDataDAO;
@@ -55,7 +35,6 @@ import com.ucl.news.reader.RSSItems;
 import com.ucl.news.utils.AutoLogin;
 import com.ucl.newsreader.R;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.app.AppCompatActivity;
 
 public class ArticleActivity extends AppCompatActivity implements
 		OnBottomReachedListener {
@@ -91,87 +70,92 @@ public class ArticleActivity extends AppCompatActivity implements
 
 		featureList = MainActivity.featureList;
 
-		//Get an array of 3 tab names based on the features in the rule
-        String[] tabNames = extractFeatures(featureList);
+        progressBarArticle = (ProgressBar) findViewById(R.id.progressBarArticleActivity);
+        progressBarArticle.setVisibility(View.VISIBLE);
+        webView = (ArticleWebView) findViewById(R.id.webViewArticleStory);
 
-		TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        //TextView headerTitle = (TextView) findViewById(R.id.headerArticleTitle);
 
-		//Add the tabs and assign the names from the featureList
-		tabLayout.addTab(tabLayout.newTab().setText(tabNames[0]));
-		tabLayout.addTab(tabLayout.newTab().setText(tabNames[1]));
-		tabLayout.addTab(tabLayout.newTab().setText(tabNames[2]));
-		tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        ImageView mbtnBackButton = (ImageView) findViewById(R.id.back_button_image);
+        mbtnBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-		final ViewPager viewPager = (ViewPager) findViewById(R.id.tab_pager);
-		final TabPagerAdapter adapter = new TabPagerAdapter
-				(getSupportFragmentManager(), tabLayout.getTabCount());
-		viewPager.setAdapter(adapter);
-		viewPager.setOffscreenPageLimit(2); //Make all 3 tabs load at the same time
-		viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-		tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-			@Override
-			public void onTabSelected(TabLayout.Tab tab) {
-				viewPager.setCurrentItem(tab.getPosition());
-			}
+		if (featureList != null) {
+            webView.setVisibility(View.INVISIBLE);
+			//Get an array of 3 tab names based on the features in the rule
+			String[] tabNames = extractFeatures(featureList);
 
-			@Override
-			public void onTabUnselected(TabLayout.Tab tab) {
+			TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
-			}
+			//Add the tabs and assign the names from the featureList
+			tabLayout.addTab(tabLayout.newTab().setText(tabNames[0]));
+			tabLayout.addTab(tabLayout.newTab().setText(tabNames[1]));
+			tabLayout.addTab(tabLayout.newTab().setText(tabNames[2]));
+			tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-			@Override
-			public void onTabReselected(TabLayout.Tab tab) {
+			//Handle the tab loading logic - load all tabs concurrently for better user experience
+			final ViewPager viewPager = (ViewPager) findViewById(R.id.tab_pager);
+			final TabPagerAdapter adapter = new TabPagerAdapter
+					(getSupportFragmentManager(), tabLayout.getTabCount());
+			viewPager.setAdapter(adapter);
+			viewPager.setOffscreenPageLimit(2); //Make all 3 tabs load at the same time
+			viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+			tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+				@Override
+				public void onTabSelected(TabLayout.Tab tab) {
+					viewPager.setCurrentItem(tab.getPosition());
+				}
 
-			}
-		});
+				@Override
+				public void onTabUnselected(TabLayout.Tab tab) {
 
-		progressBarArticle = (ProgressBar) findViewById(R.id.progressBarArticleActivity);
-		progressBarArticle.setVisibility(View.VISIBLE);
+				}
 
-		//TextView headerTitle = (TextView) findViewById(R.id.headerArticleTitle);
+				@Override
+				public void onTabReselected(TabLayout.Tab tab) {
 
-		ImageView mbtnBackButton = (ImageView) findViewById(R.id.back_button_image);
-		mbtnBackButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onBackPressed();
-			}
-		});
+				}
+			});
+		} else {
 
-		/*final RSSItems rss = getIntent().getParcelableExtra(
-				ViewPagerAdapter.EXTRA_MESSAGE);
+			final RSSItems rss = getIntent().getParcelableExtra(
+					ViewPagerAdapter.EXTRA_MESSAGE);
 
-		//headerTitle.setText(rss.getTitle());
+			//headerTitle.setText(rss.getTitle());
 
-		// Change the url to mobile version
-		String rssLink = rss.getLink();
-		String mLinkURL = rssLink.replaceAll("www", "m");
-
-
-
-		//System.out.println("RSS LINK: " + rss.getLink());
-		System.out.println("M LINK: " + mLinkURL);
-		new ParseHTML().execute(mLinkURL);
-
-		aDAO = new ArticleDAO();
-		articleMetaData = new ArrayList<ArticleMetaDataDAO>();
-
-		articleID = extractArticleID(rss.getLink());
-
-		aDAO.setUserID(AutoLogin.getUserID(AutoLogin
-				.getSettingsFile(getApplicationContext())));
-		aDAO.setUserSession(AutoLogin.getUserSession(AutoLogin
-				.getSettingsFile(getApplicationContext())));
-		aDAO.setArticleID(articleID);
-		aDAO.setArticleName(rss.getTitle());
-		aDAO.setArticleURL(rss.getLink());
+			// Change the url to mobile version
+			String rssLink = rss.getLink();
+			String mLinkURL = rssLink.replaceAll("www", "m");
 
 
-		startReading = new Date().getTime();
-		aDAO.setStartTimestamp(startReading);*/
+			//System.out.println("RSS LINK: " + rss.getLink());
+			System.out.println("M LINK: " + mLinkURL);
+			new ParseHTML().execute(mLinkURL);
+
+			aDAO = new ArticleDAO();
+			articleMetaData = new ArrayList<ArticleMetaDataDAO>();
+
+			articleID = extractArticleID(rss.getLink());
+
+			aDAO.setUserID(AutoLogin.getUserID(AutoLogin
+					.getSettingsFile(getApplicationContext())));
+			aDAO.setUserSession(AutoLogin.getUserSession(AutoLogin
+					.getSettingsFile(getApplicationContext())));
+			aDAO.setArticleID(articleID);
+			aDAO.setArticleName(rss.getTitle());
+			aDAO.setArticleURL(rss.getLink());
+
+
+			startReading = new Date().getTime();
+			aDAO.setStartTimestamp(startReading);
+		}
 	}
 
-    //Forms tab names from featureList
+    //Extract tab names from featureList
     public String[] extractFeatures(List<String> featureList) {
         String[] tabNames = new String[3];
         for (String feature : featureList) {
@@ -208,27 +192,7 @@ public class ArticleActivity extends AppCompatActivity implements
         return tabNames;
     }
 
-	/*private long extractArticleID(String articleURL) {
-
-		String[] URLTokens;
-		/*
-		 * Parse it as sport article.
-
-		if (articleURL.contains("/sport/0/")) {
-
-			URLTokens = articleURL.split("/");
-		} else {
-			String[] URLTokensTemp = articleURL.split("#");
-			if (URLTokensTemp[0].contains("-"))
-				URLTokens = URLTokensTemp[0].split("-");
-			else
-				URLTokens = URLTokensTemp[0].split("/");
-		}
-
-		// for(int i = 0; i < URLTokens.length; i++)
-		// System.out.println("storyID: " + URLTokens[URLTokens.length - 1]);
-		return Long.parseLong(URLTokens[URLTokens.length - 1]);
-	}*/
+	/****DEFAULT LOGIC FOR NO ADAPTATION****/
 
 	@Override
 	public void onBackPressed() {
@@ -274,7 +238,7 @@ public class ArticleActivity extends AppCompatActivity implements
 		sendBroadcast(intent);
 	}
 
-	/*private class MyWebViewClient extends WebViewClient {
+	private class MyWebViewClient extends WebViewClient {
 
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -448,7 +412,7 @@ public class ArticleActivity extends AppCompatActivity implements
 		@SuppressLint("SetJavaScriptEnabled")
 		@Override
 		protected void onPostExecute(String result) {
-			webView = (ArticleWebView) findViewById(R.id.webViewArticleStory);
+			//webView = (ArticleWebView) findViewById(R.id.webViewArticleStory);
 			// webView = new ArticleWebView(getApplicationContext(),
 			// ArticleActivity.this);
 			// RelativeLayout rl = new RelativeLayout(getApplicationContext());
@@ -467,7 +431,29 @@ public class ArticleActivity extends AppCompatActivity implements
 			// rl.addView(webView);
 			// setContentView(rl, rlp);
 		}
-	}*/
+	}
+
+    private long extractArticleID(String articleURL) {
+
+        String[] URLTokens;
+		/*
+		 * Parse it as sport article.
+		 */
+        if (articleURL.contains("/sport/0/")) {
+
+            URLTokens = articleURL.split("/");
+        } else {
+            String[] URLTokensTemp = articleURL.split("#");
+            if (URLTokensTemp[0].contains("-"))
+                URLTokens = URLTokensTemp[0].split("-");
+            else
+                URLTokens = URLTokensTemp[0].split("/");
+        }
+
+        // for(int i = 0; i < URLTokens.length; i++)
+        // System.out.println("storyID: " + URLTokens[URLTokens.length - 1]);
+        return Long.parseLong(URLTokens[URLTokens.length - 1]);
+    }
 
 	@Override
 	public void onBottomReached(View v) {

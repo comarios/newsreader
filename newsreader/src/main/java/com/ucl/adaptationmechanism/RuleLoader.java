@@ -1,31 +1,19 @@
 package com.ucl.adaptationmechanism;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.Pair;
 import android.util.Xml;
-
-import com.ucl.news.utils.Range;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-/**
- * Created by danyaalmasood on 17/11/2016.
- */
 
 public class RuleLoader {
 
-    private static final String ns = null;
-
     private List<Rule> rules = new ArrayList<>();
-
+    private static final String ns = null;
     private Context context;
 
     public RuleLoader(Context context){
@@ -81,7 +69,7 @@ public class RuleLoader {
     private Rule readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "rule");
         String ruleName = null;
-        ArrayList<Range> ranges = new ArrayList<>();
+        ArrayList<Double> ranges = new ArrayList<>();
         ArrayList<String> featureList = new ArrayList<>();
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -91,14 +79,11 @@ public class RuleLoader {
             if (name.equals("name")) {
                 ruleName = readName(parser);
             } else if (name.equals("trackerPercent")) {
-                String[] range = readTracker(parser).split("-");
-                ranges.add(new Range(Float.valueOf(range[0]), Float.valueOf(range[1])));
+                ranges.add(Double.valueOf(readTracker(parser)));
             } else if (name.equals("reviewerPercent")) {
-                String[] range = readReviewer(parser).split("-");
-                ranges.add(new Range(Float.valueOf(range[0]), Float.valueOf(range[1])));
+                ranges.add(Double.valueOf(readReviewer(parser)));
             } else if (name.equals("dipperPercent")) {
-                String[] range = readDipper(parser).split("-");
-                ranges.add(new Range(Float.valueOf(range[0]), Float.valueOf(range[1])));
+                ranges.add(Double.valueOf(readDipper(parser)));
             } else if (name.equals("features")) {
                 featureList = readFeatures(parser);
             } else {
@@ -154,7 +139,6 @@ public class RuleLoader {
                 skip(parser);
             }
         }
-
         return featureList;
     }
 
@@ -194,10 +178,10 @@ public class RuleLoader {
     public static class Rule {
 
         private String ruleName;
-        private List<Range> ranges;
+        private List<Double> ranges;
         private ArrayList<String> featureList;
 
-        public Rule(String ruleName, List<Range> ranges, ArrayList<String> featureList) {
+        public Rule(String ruleName, List<Double> ranges, ArrayList<String> featureList) {
             this.ruleName = ruleName;
             this.ranges = ranges;
             this.featureList = featureList;
@@ -207,7 +191,7 @@ public class RuleLoader {
             return ruleName;
         }
 
-        public List<Range> getRanges() {
+        public List<Double> getRanges() {
             return ranges;
         }
 

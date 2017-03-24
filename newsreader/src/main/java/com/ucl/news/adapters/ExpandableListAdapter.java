@@ -1,9 +1,5 @@
 package com.ucl.news.adapters;
 
-/**
- * Created by danyaalmasood on 16/01/2017.
- */
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,11 +13,11 @@ import android.widget.TextView;
 
 import com.ucl.newsreader.R;
 
+//For accordionInfo feature - Taken from an online tutorial
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
-    private List<String> _listDataHeader; // header titles
-    // child data in format of header title, child title
+    private List<String> _listDataHeader;
     private HashMap<String, List<String>> _listDataChild;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader,

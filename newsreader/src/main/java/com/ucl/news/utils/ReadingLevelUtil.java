@@ -1,7 +1,12 @@
 package com.ucl.news.utils;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,6 +29,7 @@ import java.util.Map;
 public class ReadingLevelUtil {
 
     private Context context;
+    private CoordinatorLayout coordinatorLayout;
 
     public ReadingLevelUtil(Context context) {
         this.context = context;
@@ -43,14 +49,13 @@ public class ReadingLevelUtil {
                         try {
                             callback.onSuccess(response);
                         } catch (Exception e) {
-                            e.printStackTrace();
-                            //Add snackbar message
+                            displaySnackbarMessage();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Log.e("Response: ", error.getMessage());
+                displaySnackbarMessage();
             }
         }) {
             @Override
@@ -87,12 +92,10 @@ public class ReadingLevelUtil {
                                 try {
                                     callback.onSuccess(response);
                                 } catch (Exception e) {
-                                    e.printStackTrace();
-                                    //Add snackbar message
+                                    displaySnackbarMessage();
                                 }
                             } catch (Exception e) {
-                                e.printStackTrace();
-                                //Add snackbar message
+                                displaySnackbarMessage();
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -115,8 +118,21 @@ public class ReadingLevelUtil {
             };
             requestQueue.add(req);
         } catch (IOException e) {
-            //Add snackbar message
+            displaySnackbarMessage();
         }
+    }
+
+    //Display error message
+    public void displaySnackbarMessage() {
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, "An error occurred. Please restart the app.", Snackbar.LENGTH_LONG);
+
+        snackbar.setActionTextColor(Color.RED);
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
     }
 
     public interface VolleyCallback{

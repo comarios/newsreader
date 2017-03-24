@@ -301,11 +301,12 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 				news.get(j).setContent(outputFeed.get(j));
 			}
 		}
-
-		if(trackerFlag) updateLatestReadArticles();
         if(dipperFlag) {
             findViewById(R.id.header).setVisibility(View.VISIBLE);
         }
+		if(trackerFlag) {
+			updateLatestReadArticles();
+		}
 		progress.setVisibility(View.INVISIBLE);
 	}
 
@@ -370,7 +371,9 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 			.println("resume from articleactivity, do not update session");
 		}
 		
-		if(trackerFlag) updateLatestReadArticles();
+		if(trackerFlag) {
+            updateLatestReadArticles();
+        }
 	}
 	
 	private void updateLatestReadArticles() {

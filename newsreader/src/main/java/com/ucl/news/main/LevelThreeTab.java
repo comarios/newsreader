@@ -1,9 +1,5 @@
 package com.ucl.news.main;
 
-/**
- * Created by danyaalmasood on 15/12/2016.
- */
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -315,7 +311,7 @@ public class LevelThreeTab extends Fragment {
         }
     }
 
-    //Use story's existing related articles
+    //Change title and use story's existing related articles
     public void relatedArticles(){
         Element e = doc.select("h2.group__title").first();
         if (e != null) {

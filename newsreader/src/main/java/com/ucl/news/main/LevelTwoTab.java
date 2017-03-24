@@ -1,13 +1,12 @@
 package com.ucl.news.main;
 
-/**
- * Created by danyaalmasood on 15/12/2016.
- */
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -74,6 +74,7 @@ public class LevelTwoTab extends Fragment {
     HashMap<String, List<String>> listDataChild;
     private List<String> readingLevelFeatures;
     private ReadingLevelUtil readingLevelUtil;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class LevelTwoTab extends Fragment {
                 ViewPagerAdapter.EXTRA_MESSAGE);
         String rssLink = rss.getLink();
         String mLinkURL = rssLink.replaceAll("www", "m");
-        readingLevelUtil = new ReadingLevelUtil(getActivity());
+        readingLevelUtil = new ReadingLevelUtil(getActivity()); //Common methods for reading level features
         new ParseHTML().execute(mLinkURL);
         progressBarArticle = (ProgressBar) getActivity().findViewById(R.id.progressBarArticleActivity);
         progressBarArticle.setVisibility(View.VISIBLE);
@@ -389,7 +390,7 @@ public class LevelTwoTab extends Fragment {
                                 generateAccordion();
                             }
                         } catch (Exception e) {
-                            //Add snackbar message
+                            displaySnackbarMessageForAPI("Feature could not be loaded. Please check connection and retry", "Retry");
                         }
                     }
                 },
@@ -397,7 +398,6 @@ public class LevelTwoTab extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         String err = new String(error.networkResponse.data);
-                        //Add snackbar message
                     }
                 }
         );
@@ -444,7 +444,7 @@ public class LevelTwoTab extends Fragment {
                 keywordList.add(name);
             }
         } catch(Exception e){
-            //Add snackbar message
+            displaySnackbarMessageForAPI("An error occurred, please refresh the page", "Refresh");
         }
         return keywordList;
     }
@@ -462,6 +462,24 @@ public class LevelTwoTab extends Fragment {
                 showWebView(doc.html());
             }
         });
+    }
+
+    public void displaySnackbarMessageForAPI(String message, String action) {
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, message, Snackbar.LENGTH_LONG)
+                .setAction(action, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getFragmentManager().beginTransaction().detach(getParentFragment()).attach(getParentFragment()).commit();
+                    }
+                });
+
+        snackbar.setActionTextColor(Color.RED);
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
     }
 
     //Display the webview after features have been generated

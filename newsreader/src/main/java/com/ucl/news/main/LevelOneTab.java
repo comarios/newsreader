@@ -8,15 +8,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,30 +21,23 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ucl.adaptationmechanism.AdaptInterfaceActivity;
 import com.ucl.news.adapters.ViewPagerAdapter;
 import com.ucl.news.api.ArticleDAO;
-import com.ucl.news.api.LoggingReadingBehavior;
-import com.ucl.news.api.LoggingReadingScroll;
 import com.ucl.news.articles.ArticleWebView;
 import com.ucl.news.dao.ArticleMetaDataDAO;
 import com.ucl.news.reader.RSSItems;
-import com.ucl.news.utils.AutoLogin;
 import com.ucl.news.utils.ReadingLevelUtil;
 import com.ucl.newsreader.R;
 
@@ -60,14 +50,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static com.ucl.news.main.ArticleActivity.articleMetaData;
 
@@ -100,7 +86,7 @@ public class LevelOneTab extends Fragment {
                 ViewPagerAdapter.EXTRA_MESSAGE);
         String rssLink = rss.getLink();
         String mLinkURL = rssLink.replaceAll("www", "m");
-        readingLevelUtil = new ReadingLevelUtil(getActivity());
+        readingLevelUtil = new ReadingLevelUtil(getActivity()); //Common methods for reading level features
         new ParseHTML().execute(mLinkURL);
         progressBarArticle = (ProgressBar) getActivity().findViewById(R.id.progressBarArticleActivity);
         progressBarArticle.setVisibility(View.VISIBLE);
@@ -390,10 +376,7 @@ public class LevelOneTab extends Fragment {
                             doc.select("div.story-body__inner").append("<img src="+cloudURL+"/>");
                             showWebView(doc.html());
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                            /*Snackbar snackbar = Snackbar
-                                    .make(coordinatorLayout, "Could not display wordcloud", Snackbar.LENGTH_LONG);
-                            snackbar.show();*/
+                            displaySnackbarMessageForAPI("Feature could not be loaded. Please check connection and retry", "Retry");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -462,7 +445,7 @@ public class LevelOneTab extends Fragment {
                 keywordList.add(name);
             }
         } catch(Exception e){
-            //Add snackbar message
+            displaySnackbarMessageForAPI("An error occurred, please refresh the page", "Refresh");
         }
         return keywordList;
     }
@@ -495,5 +478,23 @@ public class LevelOneTab extends Fragment {
             // rl.addView(webView);
             // setContentView(rl, rlp);
         }
+    }
+
+    public void displaySnackbarMessageForAPI(String message, String action) {
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, message, Snackbar.LENGTH_LONG)
+                .setAction(action, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getFragmentManager().beginTransaction().detach(getParentFragment()).attach(getParentFragment()).commit();
+                    }
+                });
+
+        snackbar.setActionTextColor(Color.RED);
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
     }
 }

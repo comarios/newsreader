@@ -30,7 +30,7 @@ import main.java.org.mcsoxford.rss.RSSItem;
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.ucl.news.main.MainActivity.PREFS_NAME;
 
-
+//Alarm set up in MainActivity is handled here
 public class AlarmReceiver extends BroadcastReceiver implements RetrieveFeedTask.AsyncResponse {
     private RetrieveFeedTask asyncTask;
     private Context context;
@@ -67,6 +67,7 @@ public class AlarmReceiver extends BroadcastReceiver implements RetrieveFeedTask
         asyncTask.delegate = this;
     }
 
+    //Check which articles have updates
     @Override
     public void processFinish(ArrayList<List<RSSItem>> outputFeed) {
         for (List<RSSItem> out : outputFeed) {
@@ -82,8 +83,8 @@ public class AlarmReceiver extends BroadcastReceiver implements RetrieveFeedTask
         }
     }
 
+    //Display the notification and handle navigation to the articles
     public void generatePushNotification(RSSItem item) {
-        Log.v("InAlarm", "push");
         Intent intent = new Intent(context, ArticleActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
         Notification noti = new Notification.Builder(context)
