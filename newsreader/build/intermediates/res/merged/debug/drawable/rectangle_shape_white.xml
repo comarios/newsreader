@@ -3,4 +3,3 @@
     <stroke android:width="2dp" android:color="#FFFFFFFF" />
     <solid android:color="@color/white"/>
 </shape>
-<!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/drawable/rectangle_shape_white.xml -->

@@ -16,6 +16,9 @@
 
 package main.java.org.mcsoxford.rss;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Data about an RSS item.
  * 
@@ -24,7 +27,7 @@ package main.java.org.mcsoxford.rss;
 public class RSSItem extends RSSBase {
   private final java.util.List<MediaThumbnail> thumbnails;
   private String content;
-	private MediaEnclosure enclosure;
+  private MediaEnclosure enclosure;
 
   /* Internal constructor for RSSHandler */
   RSSItem(byte categoryCapacity, byte thumbnailCapacity) {
@@ -65,5 +68,4 @@ public class RSSItem extends RSSBase {
 	void setEnclosure(MediaEnclosure enclosure) {
 		this.enclosure = enclosure;
 	}
-
 }

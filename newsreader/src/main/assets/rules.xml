@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<rules>
+    <rule>
+        <name>Tracker</name>
+        <trackerPercent>100</trackerPercent>
+        <reviewerPercent>0</reviewerPercent>
+        <dipperPercent>0</dipperPercent>
+        <features>
+            <feature>trackerLayout</feature>
+            <feature>trackerTop</feature>
+            <feature>paragraphSummary</feature> <!--highlightedTerms-->
+            <feature>colourGradient</feature> <!--bulletPointSummary (low priority)-->
+            <feature>originalStory</feature>
+            <feature>pushNotifications</feature>
+        </features>
+    </rule>
+
+    <rule>
+        <name>Reviewer</name>
+        <trackerPercent>0</trackerPercent>
+        <reviewerPercent>100</reviewerPercent>
+        <dipperPercent>0</dipperPercent>
+        <features>
+            <feature>reviewerLayout</feature>
+            <feature>highlightedTerms</feature>
+            <feature>accordionInfo</feature> <!--colourGradient-->
+            <feature>relatedArticles</feature>
+        </features>
+    </rule>
+
+    <rule>
+        <name>Dipper</name>
+        <trackerPercent>0</trackerPercent>
+        <reviewerPercent>0</reviewerPercent>
+        <dipperPercent>100</dipperPercent>
+        <features>
+            <feature>dipperLayout</feature>
+            <feature>dipperTop</feature>
+            <feature>wordcloud</feature> <!--highlightedTerms, keywordList-->
+            <feature>bulletPointSummary</feature>
+            <feature>relatedArticles</feature>
+        </features>
+    </rule>
+
+    <rule>
+        <name>Tracker/Reviewer</name>
+        <trackerPercent>50</trackerPercent>
+        <reviewerPercent>50</reviewerPercent>
+        <dipperPercent>0</dipperPercent>
+        <features>
+            <feature>trackerLayout</feature>
+            <feature>trackerTop</feature>
+            <feature>paragraphSummary</feature>
+            <feature>colourGradient</feature>
+            <feature>originalStory</feature>
+        </features>
+    </rule>
+
+    <rule>
+        <name>Reviewer/Dipper</name>
+        <trackerPercent>0</trackerPercent>
+        <reviewerPercent>50</reviewerPercent>
+        <dipperPercent>50</dipperPercent>
+        <features>
+            <feature>reviewerLayout</feature>
+            <feature>highlightedTerms</feature>
+            <feature>accordionInfo</feature> <!--dippers can just read the title, reviewers can explore-->
+            <feature>relatedArticles</feature>
+        </features>
+    </rule>
+</rules>

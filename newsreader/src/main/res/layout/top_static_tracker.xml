@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/tracked_articles_placeholder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/no_articles_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tracked Articles"/>
+
+    <ListView
+        android:id="@+id/tracked_articles"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_alignParentTop="true"
+        android:divider="@color/grey"
+        android:dividerHeight="1dp"
+        android:visibility="gone" />
+
+</RelativeLayout>

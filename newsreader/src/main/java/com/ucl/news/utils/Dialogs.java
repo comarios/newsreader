@@ -1,5 +1,6 @@
 package com.ucl.news.utils;
 
+import com.ucl.news.main.MainActivity;
 import com.ucl.newsreader.R;
 import android.app.Activity;
 import android.app.AlertDialog;

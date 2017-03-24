@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class LatestReadArticlesDAO {
 	
@@ -29,6 +30,7 @@ public class LatestReadArticlesDAO {
 	}
 	
 	public long insertOrUpdateLatestReadArticle(String title, long timestamp) {
+
 		SQLiteDatabase db = mDbHelper.getWritableDatabase();
 		
 		ContentValues contentValues = new ContentValues();

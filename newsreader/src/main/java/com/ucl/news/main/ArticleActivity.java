@@ -1,50 +1,33 @@
 package com.ucl.news.main;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.google.gson.Gson;
+import com.ucl.news.adapters.TabPagerAdapter;
 import com.ucl.news.adapters.ViewPagerAdapter;
 import com.ucl.news.api.ArticleDAO;
-import com.ucl.news.api.LoggingReadingBehavior;
-import com.ucl.news.api.LoggingReadingScroll;
 import com.ucl.news.articles.ArticleWebView;
 import com.ucl.news.articles.ArticleWebView.OnBottomReachedListener;
 import com.ucl.news.dao.ArticleMetaDataDAO;
@@ -52,7 +35,6 @@ import com.ucl.news.reader.RSSItems;
 import com.ucl.news.utils.AutoLogin;
 import com.ucl.newsreader.R;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.app.AppCompatActivity;
 
 public class ArticleActivity extends AppCompatActivity implements
 		OnBottomReachedListener {
@@ -69,6 +51,7 @@ public class ArticleActivity extends AppCompatActivity implements
 	private Boolean isScrollReachedBottom = false;
 	public static final String UPDATE = "com.ucl.news.main.ArticleActivity.action.UPDATE";
 	public static final String MSG_SEND = "com.ucl.news.main.ArticleActivity.MSG_SEND";
+	private List<String> featureList;
 
 	public void setArticleMetaDataDAO(ArticleMetaDataDAO amdDAO) {
 		articleMetaData.add(amdDAO);
@@ -85,74 +68,131 @@ public class ArticleActivity extends AppCompatActivity implements
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setHomeButtonEnabled(true);
 
-		progressBarArticle = (ProgressBar) findViewById(R.id.progressBarArticleActivity);
-		progressBarArticle.setVisibility(View.VISIBLE);
+		featureList = MainActivity.featureList;
 
-		TextView headerTitle = (TextView) findViewById(R.id.headerArticleTitle);
+        progressBarArticle = (ProgressBar) findViewById(R.id.progressBarArticleActivity);
+        progressBarArticle.setVisibility(View.VISIBLE);
+        webView = (ArticleWebView) findViewById(R.id.webViewArticleStory);
 
-		ImageView mbtnBackButton = (ImageView) findViewById(R.id.back_button_image);
-		mbtnBackButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onBackPressed();
-			}
-		});
+        //TextView headerTitle = (TextView) findViewById(R.id.headerArticleTitle);
 
-		final RSSItems rss = getIntent().getParcelableExtra(
-				ViewPagerAdapter.EXTRA_MESSAGE);
+        ImageView mbtnBackButton = (ImageView) findViewById(R.id.back_button_image);
+        mbtnBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-		headerTitle.setText(rss.getTitle());
+		if (featureList != null) {
+            webView.setVisibility(View.INVISIBLE);
+			//Get an array of 3 tab names based on the features in the rule
+			String[] tabNames = extractFeatures(featureList);
 
-		// Change the url to mobile version
-		String rssLink = rss.getLink();
-		String mLinkURL = rssLink.replaceAll("www", "m");
+			TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
+			//Add the tabs and assign the names from the featureList
+			tabLayout.addTab(tabLayout.newTab().setText(tabNames[0]));
+			tabLayout.addTab(tabLayout.newTab().setText(tabNames[1]));
+			tabLayout.addTab(tabLayout.newTab().setText(tabNames[2]));
+			tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+			//Handle the tab loading logic - load all tabs concurrently for better user experience
+			final ViewPager viewPager = (ViewPager) findViewById(R.id.tab_pager);
+			final TabPagerAdapter adapter = new TabPagerAdapter
+					(getSupportFragmentManager(), tabLayout.getTabCount());
+			viewPager.setAdapter(adapter);
+			viewPager.setOffscreenPageLimit(2); //Make all 3 tabs load at the same time
+			viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+			tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+				@Override
+				public void onTabSelected(TabLayout.Tab tab) {
+					viewPager.setCurrentItem(tab.getPosition());
+				}
 
-		//System.out.println("RSS LINK: " + rss.getLink());
-		System.out.println("M LINK: " + mLinkURL);
-		new ParseHTML().execute(mLinkURL);
+				@Override
+				public void onTabUnselected(TabLayout.Tab tab) {
 
-		Log.e("RESULT READING Scroll Enter Activity", "test");
-		aDAO = new ArticleDAO();
-		articleMetaData = new ArrayList<ArticleMetaDataDAO>();
+				}
 
-		articleID = extractArticleID(rss.getLink());
+				@Override
+				public void onTabReselected(TabLayout.Tab tab) {
 
-		aDAO.setUserID(AutoLogin.getUserID(AutoLogin
-				.getSettingsFile(getApplicationContext())));
-		aDAO.setUserSession(AutoLogin.getUserSession(AutoLogin
-				.getSettingsFile(getApplicationContext())));
-		aDAO.setArticleID(articleID);
-		aDAO.setArticleName(rss.getTitle());
-		aDAO.setArticleURL(rss.getLink());
-
-
-		startReading = new Date().getTime();
-		aDAO.setStartTimestamp(startReading);
-	}
-
-	private long extractArticleID(String articleURL) {
-
-		String[] URLTokens;
-		/*
-		 * Parse it as sport article.
-		 */
-		if (articleURL.contains("/sport/0/")) {
-
-			URLTokens = articleURL.split("/");
+				}
+			});
 		} else {
-			String[] URLTokensTemp = articleURL.split("#");
-			if (URLTokensTemp[0].contains("-"))
-				URLTokens = URLTokensTemp[0].split("-");
-			else
-				URLTokens = URLTokensTemp[0].split("/");
-		}
 
-		// for(int i = 0; i < URLTokens.length; i++)
-		// System.out.println("storyID: " + URLTokens[URLTokens.length - 1]);
-		return Long.parseLong(URLTokens[URLTokens.length - 1]);
+			final RSSItems rss = getIntent().getParcelableExtra(
+					ViewPagerAdapter.EXTRA_MESSAGE);
+
+			//headerTitle.setText(rss.getTitle());
+
+			// Change the url to mobile version
+			String rssLink = rss.getLink();
+			String mLinkURL = rssLink.replaceAll("www", "m");
+
+
+			//System.out.println("RSS LINK: " + rss.getLink());
+			System.out.println("M LINK: " + mLinkURL);
+			new ParseHTML().execute(mLinkURL);
+
+			aDAO = new ArticleDAO();
+			articleMetaData = new ArrayList<ArticleMetaDataDAO>();
+
+			articleID = extractArticleID(rss.getLink());
+
+			aDAO.setUserID(AutoLogin.getUserID(AutoLogin
+					.getSettingsFile(getApplicationContext())));
+			aDAO.setUserSession(AutoLogin.getUserSession(AutoLogin
+					.getSettingsFile(getApplicationContext())));
+			aDAO.setArticleID(articleID);
+			aDAO.setArticleName(rss.getTitle());
+			aDAO.setArticleURL(rss.getLink());
+
+
+			startReading = new Date().getTime();
+			aDAO.setStartTimestamp(startReading);
+		}
 	}
+
+    //Extract tab names from featureList
+    public String[] extractFeatures(List<String> featureList) {
+        String[] tabNames = new String[3];
+        for (String feature : featureList) {
+            switch (feature) {
+                case "paragraphSummary":
+                    tabNames[0] = "Paragraph Summary";
+                    break;
+                case "highlightedTerms":
+                    tabNames[0] = "Highlighted Terms";
+                    break;
+                case "wordcloud":
+                    tabNames[0] = "Word Cloud";
+                    break;
+                case "keywordList":
+                    tabNames[0] = "Keywords";
+                    break;
+                case "colourGradient":
+                    tabNames[1] = "Colour Gradient";
+                    break;
+                case "accordionInfo":
+                    tabNames[1] = "Background Information";
+                    break;
+                case "bulletPointSummary":
+                    tabNames[1] = "Bullet Point Summary";
+                    break;
+                case "originalStory":
+                    tabNames[2] = "Original Story";
+                    break;
+                case "relatedArticles":
+                    tabNames[2] = "Related Articles";
+                    break;
+            }
+        }
+        return tabNames;
+    }
+
+	/****DEFAULT LOGIC FOR NO ADAPTATION****/
 
 	@Override
 	public void onBackPressed() {
@@ -160,7 +200,7 @@ public class ArticleActivity extends AppCompatActivity implements
 		super.onBackPressed();
 
 		endReading = new Date().getTime();
-		aDAO.setEndTimestamp(endReading);
+		/*aDAO.setEndTimestamp(endReading);
 		aDAO.setReadingDuration(TimeUnit.MILLISECONDS.toSeconds(endReading
 				- startReading));
 		aDAO.setNumberOfWordsInArticle(numberOfWordsInArticle);
@@ -171,56 +211,9 @@ public class ArticleActivity extends AppCompatActivity implements
 		LoggingReadingBehavior loggingReadingBehavior = new LoggingReadingBehavior(getApplicationContext(), this, aDAO);
 
 		//Store Reading Scroll (e.g. precise scroll positions)
-		LoggingReadingScroll loggingReadingScroll = new LoggingReadingScroll(getApplicationContext(), this, articleMetaData);
+		LoggingReadingScroll loggingReadingScroll = new LoggingReadingScroll(getApplicationContext(), this, articleMetaData);*/
 
 		MainActivity.CallingFromArticleActivity = true;
-
-		/*
-		 * Store Reading Scroll in the file. Commented coz it is stored in the
-		 * server.
-		 */
-
-		// for (int i = 0; i < articleMetaData.size(); i++) {
-		// LoggingReadingScroll logReadingScrollhpt = new LoggingReadingScroll(
-		// getApplicationContext(), this, articleMetaData.get(i));
-		// }
-
-		// File scrollFile = new File(Environment.getExternalStorageDirectory()
-		// + File.separator + "HabitoNews_Study/scroll_position.txt");
-		//
-		// if (scrollFile.exists()) {
-		// try {
-		// BufferedWriter bW;
-		//
-		// bW = new BufferedWriter(new FileWriter(scrollFile, true));
-		// for (int i = 0; i < articleMetaData.size(); i++) {
-		//
-		// String delimeter = ";";
-		// String row = articleMetaData.get(i).getUserID() + delimeter
-		// + articleMetaData.get(i).getUserSession()
-		// + delimeter + articleMetaData.get(i).getArticleID()
-		// + delimeter
-		// + articleMetaData.get(i).getScrollRange()
-		// + delimeter
-		// + articleMetaData.get(i).getScrollExtent()
-		// + delimeter
-		// + articleMetaData.get(i).getScrollOffset()
-		// + delimeter + articleMetaData.get(i).getDateTime()
-		// + delimeter;
-		//
-		// bW.write(row);
-		// bW.newLine();
-		// bW.flush();
-		// }
-		//
-		// bW.close();
-		// } catch (Exception e) {
-		//
-		// }
-		// } else {
-		// // Do something else.
-		// System.out.println("scroll_position file not found");
-		// }
 	}
 
 	public void storeReadingScroll(String result) {
@@ -255,6 +248,7 @@ public class ArticleActivity extends AppCompatActivity implements
 	}
 
 	public int countWords(String str) {
+
 		if (str == null || str.isEmpty())
 			return 0;
 
@@ -271,7 +265,7 @@ public class ArticleActivity extends AppCompatActivity implements
 	}
 
 	private class ParseHTML extends AsyncTask<String, Void, String> {
-
+		//HERE IS THE ARTICLE TEXT
 		@Override
 		protected String doInBackground(String... params) {
 
@@ -283,9 +277,10 @@ public class ArticleActivity extends AppCompatActivity implements
 
 			try {
 				doc = Jsoup.connect(params[0]).get();
+                //regex to remove tags
 
 				System.out.println("################");
-				System.out.println(doc.html());
+				//System.out.println("TESTINGDOC"+doc);
 
 				Log.e("dochtml", doc.html());
 				String scriptContent;
@@ -400,6 +395,8 @@ public class ArticleActivity extends AppCompatActivity implements
 
 				System.out.println("hereDOC: " + doc.toString());
 
+				//Log.v("HTMLCODE", htmlcode);
+
 				numberOfWordsInArticle = countWords(htmlcode);
 
 				// System.out.println("countWords4: " + numberOfWordsInArticle);
@@ -415,7 +412,7 @@ public class ArticleActivity extends AppCompatActivity implements
 		@SuppressLint("SetJavaScriptEnabled")
 		@Override
 		protected void onPostExecute(String result) {
-			webView = (ArticleWebView) findViewById(R.id.webViewArticleStory);
+			//webView = (ArticleWebView) findViewById(R.id.webViewArticleStory);
 			// webView = new ArticleWebView(getApplicationContext(),
 			// ArticleActivity.this);
 			// RelativeLayout rl = new RelativeLayout(getApplicationContext());
@@ -435,6 +432,28 @@ public class ArticleActivity extends AppCompatActivity implements
 			// setContentView(rl, rlp);
 		}
 	}
+
+    private long extractArticleID(String articleURL) {
+
+        String[] URLTokens;
+		/*
+		 * Parse it as sport article.
+		 */
+        if (articleURL.contains("/sport/0/")) {
+
+            URLTokens = articleURL.split("/");
+        } else {
+            String[] URLTokensTemp = articleURL.split("#");
+            if (URLTokensTemp[0].contains("-"))
+                URLTokens = URLTokensTemp[0].split("-");
+            else
+                URLTokens = URLTokensTemp[0].split("/");
+        }
+
+        // for(int i = 0; i < URLTokens.length; i++)
+        // System.out.println("storyID: " + URLTokens[URLTokens.length - 1]);
+        return Long.parseLong(URLTokens[URLTokens.length - 1]);
+    }
 
 	@Override
 	public void onBottomReached(View v) {

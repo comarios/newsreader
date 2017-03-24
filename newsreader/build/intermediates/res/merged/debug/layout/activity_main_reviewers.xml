@@ -21,12 +21,12 @@
 
     <!-- Header aligned to top -->
 
-    <RelativeLayout
+    <!--RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/grey" >
+        android:background="@color/grey" -->
 
         <!--
               <TextView
@@ -38,7 +38,7 @@
             android:textColor="#000"
             android:textSize="20sp" />        -->
 
-    </RelativeLayout>
+    <!--/RelativeLayout-->
 
     <!-- Footer aligned to bottom -->
 
@@ -75,4 +75,4 @@
         android:layout_above="@id/footer" >
     </FrameLayout>
 
-</RelativeLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/activity_main_reviewers.xml -->
+</RelativeLayout>

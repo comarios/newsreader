@@ -20,4 +20,4 @@
         android:layout_weight="1"
         android:textColor="@color/white" />
 
-</LinearLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/viewpager_item.xml -->
+</LinearLayout>

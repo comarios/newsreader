@@ -4,4 +4,4 @@
     android:background="@drawable/splash_screen"
     android:scaleType="centerCrop"
     android:orientation="vertical" >
-</RelativeLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/welcome_screen.xml -->
+</RelativeLayout>

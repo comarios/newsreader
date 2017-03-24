@@ -4,7 +4,6 @@
     android:background="@color/dark_black"
     android:orientation="vertical">
 
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarArticleActivity"
         android:layout_width="match_parent"
@@ -31,7 +30,6 @@
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/back_button_image" />
 
-
             <ProgressBar
                 android:id="@+id/progressBarArticleActivity"
                 style="@android:style/Widget.ProgressBar.Inverse"
@@ -48,12 +46,26 @@
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbarArticleActivity"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tab_pager"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/tab_layout"/>
+
     <TextView
         android:id="@+id/headerArticleTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:layout_below="@+id/toolbarArticleActivity"
+        android:layout_below="@+id/tab_layout"
         android:textColor="@color/steelblue2"
         android:textSize="20sp" />
 
@@ -61,7 +73,9 @@
         android:id="@+id/webViewArticleStory"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="60dp" />
+        android:layout_below="@+id/tab_layout"/>
+
+        <!--android:layout_marginTop="60dp"-->
 
     <!--&lt;!&ndash; Header aligned to top &ndash;&gt;-->
 
