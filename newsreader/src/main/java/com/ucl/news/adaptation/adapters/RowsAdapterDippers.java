@@ -11,6 +11,7 @@ import java.util.Locale;
 import main.java.org.mcsoxford.rss.RSSItem;
 
 import android.content.Context;
+import android.os.Debug;
 import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -23,9 +24,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ucl.adaptationmechanism.AdaptInterfaceActivity;
+import com.ucl.news.adaptation.dao.LatestReadArticlesDAO;
 import com.ucl.news.adaptation.main.MainActivityDippers;
 import com.ucl.news.adaptation.main.MainActivityReviewers;
 import com.ucl.news.adapters.SmartViewPager;
@@ -48,6 +52,7 @@ public class RowsAdapterDippers extends ArrayAdapter<News> {
 	private PagerAdapter adapter;
 	private View mTouchTarget;
 	private MainActivityDippers activity;
+	private AdaptInterfaceActivity activity2;
 	private int mCurrentTabPosition;
 	private static final String LEFT_TO_RIGHT = "left to right";
 	private static final String RIGHT_TO_LEFT = "right to left";
@@ -69,6 +74,16 @@ public class RowsAdapterDippers extends ArrayAdapter<News> {
 	}
 
 	public RowsAdapterDippers(Context _context, int _resource, List<News> _items,
+							  AdaptInterfaceActivity _activity) {
+		super(_context, _resource, _items);
+		resource = _resource;
+		applicationContext = _context;
+		activity2 = _activity;
+		mAllowCollapse = true;
+		getCount();
+	}
+
+	public RowsAdapterDippers(Context _context, int _resource, List<News> _items,
 			boolean allowCollapse) {
 		super(_context, _resource, _items);
 		resource = _resource;
@@ -83,9 +98,21 @@ public class RowsAdapterDippers extends ArrayAdapter<News> {
 		// get item returns to the adapter the item at position
 		News item = getItem(position);
 
+		//need an onclick in here with the dao
+
 		final String title = item.getTitle();
 		List<RSSItem> list = item.getContent();
 
+
+        /*list.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Log.v("TESTapp", "WORKS");
+            }
+        });*/
+
+        //Log.v("TESTapp ", list.toString());
 
 		if (convertView == null) {
 			rows = new RelativeLayout(getContext());

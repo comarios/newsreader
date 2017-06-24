@@ -32,4 +32,4 @@
         android:layout_below="@+id/category" >
     </android.support.v4.view.ViewPager>-->
 
-</RelativeLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/viewpager_main.xml -->
+</RelativeLayout>

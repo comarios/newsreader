@@ -1,84 +1,66 @@
 package com.ucl.news.main;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import main.java.org.mcsoxford.rss.RSSItem;
 
 import android.Manifest;
-import android.R.integer;
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningAppProcessInfo;
-import android.content.ComponentName;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Criteria;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Environment;
-import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.ucl.adaptationmechanism.AdaptInterfaceActivity;
+import com.ucl.adaptationmechanism.RuleLoader;
 import com.ucl.news.adaptation.main.MainActivityDippers;
 import com.ucl.news.adaptation.main.MainActivityReviewers;
 import com.ucl.news.adaptation.main.MainActivityTrackers;
 import com.ucl.news.adapters.RowsAdapter;
-import com.ucl.news.api.LoggingNavigationBehavior;
-import com.ucl.news.api.LoggingReadingBehavior;
 import com.ucl.news.api.NavigationDAO;
 import com.ucl.news.api.Session;
-import com.ucl.news.logging.Logger;
 import com.ucl.news.reader.News;
 import com.ucl.news.reader.RetrieveFeedTask;
 import com.ucl.news.reader.RetrieveFeedTask.AsyncResponse;
-import com.ucl.news.services.Constants;
+import com.ucl.news.services.AlarmReceiver;
 import com.ucl.news.services.NewsAppsService;
 import com.ucl.news.utils.AutoLogin;
 import com.ucl.news.utils.Dialogs;
 import com.ucl.news.utils.GPSLocation;
 import com.ucl.news.utils.NetworkConnection;
+import com.ucl.news.utils.SnackbarWrapper;
 import com.ucl.newsreader.R;
 
 import android.support.v7.widget.Toolbar;
-import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
@@ -105,7 +87,12 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     // public static File navigationalDataFile;
     private Intent newsAppsService;
     public static boolean CallingFromArticleActivity = false;
-
+    private PendingIntent pendingIntent;
+    public static List<String> featureList;
+    public static final String PREFS_NAME = "PrefsFile";
+    private int lineCounter = 0;
+    private List<String> csvContents;
+    private boolean adapted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +103,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         initViews();
 
         if (network.haveNetworkConnection()) {
-
-            // Retrieve user class. Implement this for adaptation
-            /**
-             * IF user is A then IF user is B then IF user is C then
-             */
-
 
             news = new ArrayList<News>();
             rowsAdapter = new RowsAdapter(this, R.layout.viewpager_main, news, this);
@@ -161,6 +142,29 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
 
             startService(new Intent(this, NewsAppsService.class));
+
+            /***************ADAPTIVE*****************/
+
+            //Test file in assets folder
+            csvContents = handleCSV();
+
+            //Timer called every minute that adapts to the next UI (Used for demo)
+            //Comment out timer code and leave handleAdaptation(csvContents, lineCounter) to prevent UI changing
+            //Comment out whole block for non-adaptive variant
+            Timer myTimer = new Timer();
+            myTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (lineCounter < csvContents.size()) {
+                        handleAdaptation(csvContents, lineCounter);
+                        if (adapted) {
+                            displayRevertMessage();
+                        }
+                        lineCounter++;
+                        adapted = true;
+                    }
+                }
+            }, 0, 55000);
 
             //addListenerOnAdaptiveVariants();
 
@@ -210,7 +214,173 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         } else {
             noNetworkConnectionError();
         }
+    }
 
+    //Once UI changes, user is given the option to revert to the previous interface (Used in demo)
+    public void displayRevertMessage() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                final SnackbarWrapper snackbarWrapper = SnackbarWrapper.make(getApplicationContext(),
+                        "Revert to Previous Layout?", 10000);
+                snackbarWrapper.setAction("Revert",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                adapted = false;
+                                handleAdaptation(csvContents, lineCounter - 2);
+                            }
+                        });
+                snackbarWrapper.show();
+            }
+        });
+    }
+
+    //Reads CSV file and stores contents into a List
+    public List<String> handleCSV() {
+        List<String> csvContents = new ArrayList<>();
+        InputStreamReader is = null;
+        try {
+            is = new InputStreamReader(getAssets().open("AMTestData.csv"));
+            BufferedReader reader = new BufferedReader(is);
+            String line;
+            while ((line = reader.readLine()) != null) {
+                csvContents.add(line.replaceAll("\\p{C}", ""));
+            }
+        } catch (IOException e) {
+            displaySnackbarMessageReload("A problem occurred, please reload the application");
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                displaySnackbarMessageReload("A problem occurred, please reload the application");
+            }
+        }
+        return csvContents;
+    }
+
+    //Adapts the UI based on user type percentages
+    public void handleAdaptation(List<String> csvContents, int lineCounter) {
+
+        //Load the rules from rules.xml
+        RuleLoader rl = new RuleLoader(this);
+        List<Double> percentages = new ArrayList<>();
+
+        Double[] typePercentages = parseCSVContent(csvContents, lineCounter);
+
+        double trackerPercent = typePercentages[0];
+        double reviewerPercent = typePercentages[1];
+        double dipperPercent = typePercentages[2];
+
+        boolean trackerTop = false;
+        boolean pushNotifications = false;
+
+        percentages.add(trackerPercent);
+        percentages.add(reviewerPercent);
+        percentages.add(dipperPercent);
+
+        try {
+            List<RuleLoader.Rule> rules = rl.getRules();
+
+            //Compare the rules and stored percentages to find the matching rule
+            RuleLoader.Rule r = matchRule(rules, percentages);
+            featureList = r.getFeatureList();
+
+            //Check if the rule contains a trackerTop and push notifications
+            for (String feature : featureList) {
+                Log.v("Percentages", feature);
+                if (feature.equals("trackerTop")) {
+                    trackerTop = true;
+                } else if (feature.equals("pushNotifications")) {
+                    pushNotifications = true;
+                }
+            }
+
+            //If true, set up an alarm every 15 minutes to query news updates
+            if (trackerTop && pushNotifications) {
+                Intent alarmIntent = new Intent(MainActivity.this, AlarmReceiver.class);
+                pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+
+                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                int interval = 900000; //15 minutes
+
+                manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+            }
+
+            //Using the feature list from the matched rule, start the adaptation
+            Intent i = new Intent(MainActivity.this, AdaptInterfaceActivity.class);
+            i.putExtra("featureList", r.getFeatureList());
+            startActivity(i);
+        } catch (IOException | XmlPullParserException e){
+            displaySnackbarMessageReload("A problem occurred, please reload the application");
+        }
+    }
+
+    //Convert the user type percentages to doubles for rule matching
+    public Double[] parseCSVContent(List<String> csvContents, int lineCounter) {
+
+        Double[] rowData = new Double[3];
+
+        String[] row = csvContents.get(lineCounter).split(",");
+        for (int i = 0; i < row.length; i++) {
+            rowData[i] = Double.parseDouble(row[i]) * 100;
+        }
+        return convertToRuleFormat(rowData);
+    }
+
+    //Converts the user type percentages into a format that the rules in rules.xml can understand
+    public Double[] convertToRuleFormat(Double[] rowData) {
+
+        double trackerPercent = rowData[0];
+        double reviewerPercent = rowData[1];
+        double dipperPercent = rowData[2];
+
+        //If over 70%, then assign pure types otherwise mix between reviewer and (tracker/dipper)
+        if (trackerPercent >= 70.0) {
+            rowData[0] = 100.0;
+            rowData[1] = 0.0;
+            rowData[2] = 0.0;
+        } else if (reviewerPercent >= 70.0) {
+            rowData[0] = 0.0;
+            rowData[1] = 100.0;
+            rowData[2] = 0.0;
+        } else if (dipperPercent >= 70.0) {
+            rowData[0] = 0.0;
+            rowData[1] = 0.0;
+            rowData[2] = 100.0;
+        } else {
+            rowData[1] = 50.0;
+            if (trackerPercent > dipperPercent) {
+                rowData[0] = 50.0;
+                rowData[2] = 0.0;
+            } else {
+                rowData[2] = 50.0;
+                rowData[0] = 0.0;
+            }
+        }
+        return rowData;
+    }
+
+    //Matches the converted percentages with the correct rule and returns it
+    public static RuleLoader.Rule matchRule(List<RuleLoader.Rule> rules, List<Double> percentages) {
+        boolean match = false;
+
+        //Iterate through each rule
+        for (RuleLoader.Rule r : rules) {
+            List<Double> ranges = r.getRanges();
+            //Check if every percentage falls within the rule percentages
+            for (int i = 0; i < 3; i++) {
+                if (percentages.get(i).equals(ranges.get(i))) {
+                    match = true;
+                } else {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) {
+                return r;
+            }
+        }
+        return null;
     }
 
     private void turnOnGPS() {
@@ -266,13 +436,34 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         snackbar.show();
     }
 
+    //Snackbar prompting user to reload the app if a major error occurs
+    private void displaySnackbarMessageReload(String message) {
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, message, Snackbar.LENGTH_LONG)
+                .setAction("Reload", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    }
+                });
+
+        snackbar.setActionTextColor(Color.RED);
+
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
+    }
+
     private void initViews() {
-        toolbarMainActivity = (Toolbar) findViewById(R.id.toolbarMainActivity);
+        /*toolbarMainActivity = (Toolbar) findViewById(R.id.toolbarMainActivity);
 //        toolbar.setContentInsetsAbsolute(0,0);
 //        toolbar.setPadding(0,0,0,0);
         setSupportActionBar(toolbarMainActivity);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("");
+        actionBar.setTitle("");*/
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id
                 .coordinatorLayout);
