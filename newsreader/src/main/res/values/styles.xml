@@ -33,6 +33,10 @@
     <style name="spinnerDropDownItemStyle">
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="FOL_Theme_SnackbarWrapper" parent="@style/Theme.AppCompat">
+        <!--Insert customization here-->
+    </style>
   
 
 </resources>

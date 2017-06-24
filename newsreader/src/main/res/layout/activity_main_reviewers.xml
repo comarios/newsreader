@@ -21,12 +21,12 @@
 
     <!-- Header aligned to top -->
 
-    <RelativeLayout
+    <!--RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/grey" >
+        android:background="@color/grey" -->
 
         <!--
               <TextView
@@ -38,7 +38,7 @@
             android:textColor="#000"
             android:textSize="20sp" />        -->
 
-    </RelativeLayout>
+    <!--/RelativeLayout-->
 
     <!-- Footer aligned to bottom -->
 

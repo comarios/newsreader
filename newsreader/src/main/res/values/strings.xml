@@ -18,7 +18,7 @@
     <string name="app_subText">Knows your preferences, helps you read news more easily</string>
     <string name="dataProtectionNumber">Data Protection Number:#####</string>
     <string name="copyright">UCL Research - 2016</string>
-    
+
     <string name="search_articles">Search Articles Here</string>
 
     <!-- login.xml Strings -->
@@ -29,7 +29,7 @@
     <string name="signIn">sign in</string>
     <string name="signUp">sign up</string>
     <string name="or">or</string>
-    
+
     <!-- activity_consent_form.xml -->
     <string name="consent_form">
         "Thank you for agreeing to sign up with Habito News. Habito News is a research tool developed with the aim of improving peoples' news reading interactions. I agree to participate in a study that investigates mobile news reading behaviour, aiming to provide a more personalisednews service. I understand that my participation is entirely voluntary. \n\nI agree with the following points:\n\n1. The purpose of this research is to understand peoples' news reading behaviour and ultimately provide automated user interfacesthat personalise news reading experience. I understand that I will fill in a short survey after registering with Habito News and I will provide my interaction logs for a period of two-weeks.\n\n2. The procedure will be as follow: I will register with Habito News and use it as my primary mobile news app to read news. We expectfrom you to behave as you would behave normally in any other news app. The app runs a background service that collects your interactions withthe user interface of the app. In any case the app does not monitor your interactions with other apps, so you do not have to worry about privacy issues.\n\n3. The researchers do not foresee any risks to me for participating in this study, nor do they expect that I will experience any discomfort or stress.\n\n4. I understand that I may withdraw from the study at any time.\n\n5. All of the data collected will remain strictly confidential. Only people associated with the study will see my responses. My responses will not be associatedwith my name; instead, my name will be converted to a code number when the researchers store the data.\n\nBy clicking the 'I Agree the Terms and Conditions" you are agreeing to the above statement. \n\n"
@@ -92,7 +92,7 @@
         <item>Female</item>
     </string-array>
     <string name="tracked_articles">Tracked Articles</string>
-    
+
     <!-- Adaptation -->
     <string name="adaptive_variant_prompt">Choose an interface</string>
     <string-array name="adaptive_variants">

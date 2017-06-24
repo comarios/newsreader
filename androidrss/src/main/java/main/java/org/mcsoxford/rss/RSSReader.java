@@ -16,6 +16,8 @@
 
 package main.java.org.mcsoxford.rss;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -117,6 +119,8 @@ public class RSSReader implements java.io.Closeable {
       feedStream = entity.getContent();
 
       RSSFeed feed = parser.parse(feedStream);
+
+      //Log.v("feedstream", feed.toString());
 
       if (feed.getLink() == null) {
         feed.setLink(android.net.Uri.parse(uri));
