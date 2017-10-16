@@ -12,8 +12,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.ucl.news.api.LoginDAO;
+import com.ucl.news.dao.LoginDAO;
 import com.ucl.news.main.LoginActivity;
+import com.ucl.news.utils.Constants;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -34,7 +35,12 @@ public class LoginHttpPostTask {
 		task = new HttpAsyncTask();
 		task.setMainActivity(start);
 		task.setUsersDAO(_users);
-		task.execute("http://habito.cs.ucl.ac.uk:9000/users/login");
+		task.execute(Constants.SERVER + Constants.USERS_API + Constants.LOGIN);
+
+		System.out.println("Login request: " + Constants.SERVER + Constants.USERS_API + Constants.LOGIN);
+		System.out.println("Login email:" + users.getEmail_address());
+		System.out.println("Login password:" + users.getPassword());
+
 	}
 
 	public boolean taskfinished() {
@@ -132,6 +138,10 @@ public class LoginHttpPostTask {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			System.out.println("Login to send json: " + jsonObject);
+			System.out.println("Login urls[0]: " + urls[0]);
+
 			return POST(urls[0], jsonObject);
 		}
 
@@ -141,6 +151,7 @@ public class LoginHttpPostTask {
 			// Toast.makeText(context, "Received "+result+" from couch",
 			// Toast.LENGTH_LONG).show();
 			result2 = result;
+			System.out.println("Loging inner resutl:" + result);
 			try {
 				loginActivity.authenticate(result);
 			} catch (Exception e) {

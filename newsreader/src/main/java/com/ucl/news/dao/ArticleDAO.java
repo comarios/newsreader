@@ -1,4 +1,4 @@
-package com.ucl.news.api;
+package com.ucl.news.dao;
 import android.os.Parcel;
 import android.os.Parcelable;
 

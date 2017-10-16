@@ -15,18 +15,14 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.ucl.news.api.RegistrationDAO;
+import com.ucl.news.dao.RegistrationDAO;
 import com.ucl.news.api.RegistrationHttpPostTask;
 import com.ucl.news.utils.AutoLogin;
-import com.ucl.news.utils.Dialogs;
 import com.ucl.newsreader.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 public class QuestionnaireActivity extends Activity {
@@ -47,6 +43,7 @@ public class QuestionnaireActivity extends Activity {
     private Spinner quest3;
     private Spinner quest4;
     private Spinner quest5;
+    private Spinner quest6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +94,7 @@ public class QuestionnaireActivity extends Activity {
         quest3 = (Spinner) findViewById(R.id.quest3);
         quest4 = (Spinner) findViewById(R.id.quest4);
         quest5 = (Spinner) findViewById(R.id.quest5);
+        quest6 = (Spinner) findViewById(R.id.quest6);
     }
 
     private void submitRegistration() {
@@ -114,6 +112,7 @@ public class QuestionnaireActivity extends Activity {
         registrationDAO.setQ3_browsingstrategy(quest3.getSelectedItem().toString());
         registrationDAO.setQ4_readingstyle(quest4.getSelectedItem().toString());
         registrationDAO.setQ5_location(quest5.getSelectedItem().toString());
+        registrationDAO.setQ6_timeofday(quest6.getSelectedItem().toString());
 
         RegistrationHttpPostTask rhpt = new RegistrationHttpPostTask(
                 getApplicationContext(), this, registrationDAO);

@@ -11,13 +11,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.ucl.news.dao.ArticleMetaDataDAO;
 import com.ucl.news.main.ArticleActivity;
+import com.ucl.news.utils.Constants;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -39,7 +37,7 @@ public class LoggingReadingScroll {
 		task = new HttpAsyncTask();
 		task.setMainActivity(start);
 		task.setArticleMetaDataDAO(_articleMetaData);
-		task.execute("http://habito.cs.ucl.ac.uk:9000/users/storeReadingScroll");
+		task.execute(Constants.SERVER + Constants.NEWS_BEHAVIOR_API + Constants.READING_SCROLL);
 	}
 
 	public boolean taskfinished() {

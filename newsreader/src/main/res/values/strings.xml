@@ -50,6 +50,7 @@
     <string name="question3">Q3: How do you look for stories of interest? </string>
     <string name="question4">Q4: How do you read a news item?</string>
     <string name="question5">Q5: Where do you often read news?</string>
+    <string name="question6">Q6: What time of the day do you often read news?</string>
 
     <string-array name="question1_answers">
         <item>Many times a day</item>
@@ -76,6 +77,12 @@
         <item>Work</item>
         <item>Public Transport (train/bus)</item>
     </string-array>
+    <string-array name="question6_answers">
+        <item>Morning</item>
+        <item>Afternoon</item>
+        <item>Evening</item>
+    </string-array>
+
     <!-- register.xml Strings -->
     <string name="firstname">First Name</string>
     <string name="lastname">Last Name</string>
@@ -138,4 +145,64 @@
     <string name="activity_updates_removed">Activity updates removed</string>
 
     <string name="not_connected">GoogleApiClient not yet connected. Try again.</string>
+    <string name="title_activity_sus_questionnaire_step1">SUS_Questionnaire Step1</string>
+    <string name="title_activity_sus_questionnaire_step2">SUS_Questionnaire Step2</string>
+
+    <string name="title_activity_comparison_questionnaire_step1">Comparison_Questionnaire Step1</string>
+    <string name="title_activity_comparison_questionnaire_step2">Comparison_Questionnaire Step2</string>
+
+
+
+
+
+    <!-- SUS_Questionnaire_Step 1&2 -->
+    <!-- SUS Questionnaire strings -->
+    <string name="sus_submit">Submit</string>
+    <string name="sus_cancel">Cancel</string>
+    <string name="sus_next">Next</string>
+    <string name="sus_step1_note">Note: Answer to all questions.</string>
+    <string name="sus_question1">1.	I would be happy to use Habito News as my primary source of online news.</string>
+    <string name="sus_question2">2.	Habito News is unnecessarily complicated as a way of keeping up with the news.</string>
+    <string name="sus_question3">3.	Habito News is easy to use both for checking and finding headlines and for reading news reports.</string>
+    <string name="sus_question4">4.	Habito News is not intuitive to use, you would really need to be shown what it does and how to use it.</string>
+    <string name="sus_question5">5.	The ways in which you can check and find headlines and read articles with Habito News are smooth and seamless.</string>
+    <string name="sus_question6">6.	Habito News is inconsistent in the way it displays similar kinds of things (headlines and articles, etc) in different ways and in the way you have to do the same kinds of activities (browsing, reading, selecting, etc) in different ways.</string>
+    <string name="sus_question7">7.	I would imagine that most people would quickly work out to use Habito News to check headlines and read news reports.</string>
+    <string name="sus_question8">8.	With Habito News it is awkward to browse headlines and choose articles to read.</string>
+    <string name="sus_question9">9.	I am always confident with Habito News that I know how to find the news I am interested in and how to do all the activities available to me.</string>
+    <string name="sus_question10">10. I needed to work out quite a lot of things about Habito News before I could get going with it to check and read the news.</string>
+
+    <string-array name="sus_answers">
+        <item>Strongly Disagree</item>
+        <item>Disagree</item>
+        <item>Neither Agree nor Disagree</item>
+        <item>Agree</item>
+        <item>Strongly Agree</item>
+    </string-array>
+
+
+    <!-- Comparison Questionnaire Step 1&2 -->
+    <!-- Comparison Questionnaire strings -->
+    <string name="comparison_submit">Submit</string>
+    <string name="comparison_cancel">Cancel</string>
+    <string name="comparison_next">Next</string>
+    <string name="comparison_step1_note">Note: Answer to all questions.</string>
+    <string name="comparison_question1">1. Which environment is more visually appealing?</string>
+    <string name="comparison_question2">2. Which environment is easier for the first time of use?</string>
+    <string name="comparison_question3">3. Which environment is easier to use overall?</string>
+    <string name="comparison_question4">4. Which environment helps you find stories more quickly?</string>
+    <string name="comparison_question5">5. Which environment helps you navigate and browse all the news stories of interest more easily?</string>
+    <string name="comparison_question6">6. Which environment helps you read all the news stories of interest more easily?</string>
+    <string name="comparison_question7">7. Which environment makes it harder to remember at which point you are whilst browsing the news?</string>
+    <string name="comparison_question8">8. Which environment contains more unnecessary features?</string>
+    <string name="comparison_question9">9. Which environment makes you feel more in control while using it?</string>
+    <string name="comparison_question10">10. Which environment has better presentation of stories and organisation of menu navigation system that meets your news reading habits?</string>
+
+    <string-array name="comparison_answers">
+        <item>Mostly A</item>
+        <item>Somewhat A</item>
+        <item>Neither A nor B</item>
+        <item>Somewhat B</item>
+        <item>Mostly B</item>
+    </string-array>
 </resources>

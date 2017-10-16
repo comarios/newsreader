@@ -15,4 +15,4 @@
         android:icon="@drawable/ic_action_ic_menu_exit"
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_logout"/>
-</menu>
+</menu><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/menu/mainactivity_settings.xml -->

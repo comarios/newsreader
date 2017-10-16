@@ -1,12 +1,7 @@
 package com.ucl.news.main;
 
-import java.lang.reflect.Modifier;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -19,34 +14,23 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.text.InputType;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
-import android.content.ContentValues;
-
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ucl.news.api.LoginHttpPostTask;
-import com.ucl.news.api.RegistrationDAO;
-import com.ucl.news.api.RegistrationHttpPostTask;
 import com.ucl.news.utils.AutoLogin;
 import com.ucl.news.utils.Dialogs;
 import com.ucl.newsreader.R;

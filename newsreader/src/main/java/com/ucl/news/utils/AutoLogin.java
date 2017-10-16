@@ -80,4 +80,10 @@ public class AutoLogin {
 		userSession = session.split(";");
 		return userSession[2];
 	}
+
+	public static String getCurrentInterface(String session) {
+		String[] userSession;
+		userSession = session.split(";");
+		return userSession[3];
+	}
 }

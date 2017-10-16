@@ -12,8 +12,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.ucl.news.main.ArticleActivity;
+import com.ucl.news.dao.NavigationDAO;
 import com.ucl.news.main.MainActivity;
+import com.ucl.news.utils.Constants;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -37,7 +38,7 @@ public class LoggingNavigationBehavior {
 		task = new HttpAsyncTask();
 		// task.setMainActivity(start);
 		task.setNavigationDAO(_navigationBehavior);
-		task.execute("http://habito.cs.ucl.ac.uk:9000/users/storeNavigationBehavior");
+		task.execute(Constants.SERVER + Constants.NEWS_BEHAVIOR_API + Constants.NAVIGATION);
 	}
 
 	public boolean taskfinished() {

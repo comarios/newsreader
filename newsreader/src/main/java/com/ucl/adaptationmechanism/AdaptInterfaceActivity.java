@@ -76,7 +76,11 @@ public class AdaptInterfaceActivity extends AppCompatActivity {
         intent.putExtra("trackerflag", topTracker);
         intent.putExtra("dipperflag", topDipper);
         intent.putExtra("readingFeatures", readingLevel);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         this.startActivity(intent);
+        finish();
+
+
     }
 
     public static ArrayList<String> getReadingLevelFeatures(){

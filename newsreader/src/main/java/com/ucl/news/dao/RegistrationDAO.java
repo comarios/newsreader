@@ -1,4 +1,4 @@
-package com.ucl.news.api;
+package com.ucl.news.dao;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -16,6 +16,7 @@ public class RegistrationDAO {
     private String q3_browsingstrategy;
     private String q4_readingstyle;
     private String q5_location;
+    private String q6_timeofday;
 
     public String getQ1_frequency() {
         return q1_frequency;
@@ -55,6 +56,14 @@ public class RegistrationDAO {
 
     public void setQ5_location(String q5_location) {
         this.q5_location = q5_location;
+    }
+
+    public String getQ6_timeofday() {
+        return q6_timeofday;
+    }
+
+    public void setQ6_timeofday(String q6_timeofday) {
+        this.q6_timeofday = q6_timeofday;
     }
 
     public String getfName() {

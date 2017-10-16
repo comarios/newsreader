@@ -12,14 +12,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.ucl.news.adapters.RowsAdapter;
-import com.ucl.news.dao.ArticleMetaDataDAO;
 import com.ucl.news.dao.NavigationalMetaDataDAO;
-import com.ucl.news.main.ArticleActivity;
+import com.ucl.news.utils.Constants;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 public class LoggingNavigationMetadata {
@@ -34,7 +31,7 @@ public class LoggingNavigationMetadata {
 		this.navigationalMetaData = _navigationalMetaData;
 		task = new HttpAsyncTask();
 		task.setNavigationalMetaDataDAO(_navigationalMetaData);
-		task.execute("http://habito.cs.ucl.ac.uk:9000/users/storeNavigationalMetaData");
+		task.execute(Constants.SERVER + Constants.NEWS_BEHAVIOR_API + Constants.NAVIGATION_METADATA);
 	}
 
 	public boolean taskfinished() {
@@ -155,7 +152,7 @@ public class LoggingNavigationMetadata {
 			}
 
 			try {
-				jsonObject.accumulate("dateTime",
+				jsonObject.accumulate("date_added",
 						navigationalMetaData.getDateTime() + "");
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block

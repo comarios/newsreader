@@ -29,4 +29,4 @@
         android:numColumns="3" >
     </GridView>
 
-</LinearLayout>
+</LinearLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/activity_main_trackers.xml -->

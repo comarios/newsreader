@@ -17,10 +17,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import java.io.StringWriter;
+import java.io.PrintWriter;
 
 /**
  * Created by danyaalmasood on 31/01/2017.
@@ -40,6 +44,7 @@ public class ReadingLevelUtil {
         final String storyText = story;
         RequestQueue requestQueue = null;
         requestQueue = Volley.newRequestQueue(context);
+        System.out.println("summarize:" + storyText);
 
         final String URL = "https://cotomax-summarizer-text-v1.p.mashape.com/summarizer";
         StringRequest req = new StringRequest(Request.Method.POST, URL,
@@ -47,6 +52,9 @@ public class ReadingLevelUtil {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            System.out.println("summary: " + response);
+                            System.out.println("summary type: " + response.getClass());
+
                             callback.onSuccess(response);
                         } catch (Exception e) {
                             displaySnackbarMessage();
@@ -69,7 +77,8 @@ public class ReadingLevelUtil {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("X-Mashape-Key", "lFI4AQonpGmshBMou4yPqjqdM87fp1aUT2ljsnoTV0t6nQvd0J");
+//                headers.put("X-Mashape-Key", "lFI4AQonpGmshBMou4yPqjqdM87fp1aUT2ljsnoTV0t6nQvd0J");
+                headers.put("X-Mashape-Key", "fEmNtYCIrUmshVq6eYCGgGcjzuiwp1fHXBDjsncolQLukzVLeC");
                 return headers;
             }
         };
@@ -81,21 +90,35 @@ public class ReadingLevelUtil {
     public void keywords(String story, final VolleyCallback callback) {
         try {
             final String storyText = URLEncoder.encode(story, "UTF-8");
+
+            System.out.println("here11:" + storyText);
             RequestQueue requestQueue = null;
             requestQueue = Volley.newRequestQueue(context);
-            final String URL = "https://alchemy.p.mashape.com/text/TextGetRankedKeywords?outputMode=json&text="+storyText+"";
+            final String URL = "https://textanalysis-keyword-extraction-v1.p.mashape.com/keyword-extractor-text";
             StringRequest req = new StringRequest(Request.Method.POST, URL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
                                 try {
-                                    callback.onSuccess(response);
+                                    callback.onSuccess(URLDecoder.decode(response, "UTF-8"));
                                 } catch (Exception e) {
-                                    displaySnackbarMessage();
+//                                    System.out.println("error2 callback:" + e);
+//                                    displaySnackbarMessage();
+                                    StringWriter sw = new StringWriter();
+                                    PrintWriter pw = new PrintWriter(sw);
+                                    e.printStackTrace(pw);
+                                    String sStackTrace = sw.toString(); // stack trace as a string
+                                    System.out.println("error1: " + sStackTrace);
                                 }
                             } catch (Exception e) {
-                                displaySnackbarMessage();
+                                System.out.println("error2 callback:" + e);
+//                                displaySnackbarMessage();
+                                StringWriter sw = new StringWriter();
+                                PrintWriter pw = new PrintWriter(sw);
+                                e.printStackTrace(pw);
+                                String sStackTrace = sw.toString(); // stack trace as a string
+                                System.out.println("error2: " + sStackTrace);
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -106,21 +129,77 @@ public class ReadingLevelUtil {
             }) {
                 @Override
                 public Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put("text", storyText);
+                    params.put("wordnum", "20");
                     return params;
                 }
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("X-Mashape-Key", "lFI4AQonpGmshBMou4yPqjqdM87fp1aUT2ljsnoTV0t6nQvd0J");
+                    headers.put("X-Mashape-Key", "9UU0aFj3bZmshKh0c3kZU47tl2Bqp1Ih1GzjsnjUeXZ8aNFx9Y");
+//                    headers.put("Content-Type", "application/x-www-form-urlencoded");
                     return headers;
                 }
+
+//                @Override
+//                public String getBodyContentType() {
+//                    return "application/x-www-form-urlencoded; charset=UTF-8";
+//                }
             };
             requestQueue.add(req);
-        } catch (IOException e) {
+        } catch (Exception e) {
             displaySnackbarMessage();
         }
     }
+
+
+
+//    //Generate keywords from story
+//    public void keywords(String story, final VolleyCallback callback) {
+//        try {
+//            final String storyText = URLEncoder.encode(story, "UTF-8");
+//            RequestQueue requestQueue = null;
+//            requestQueue = Volley.newRequestQueue(context);
+//            final String URL = "https://alchemy.p.mashape.com/text/TextGetRankedKeywords?outputMode=json&text="+storyText+"";
+//            StringRequest req = new StringRequest(Request.Method.POST, URL,
+//                    new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            try {
+//                                try {
+//                                    callback.onSuccess(response);
+//                                } catch (Exception e) {
+//                                    displaySnackbarMessage();
+//                                }
+//                            } catch (Exception e) {
+//                                displaySnackbarMessage();
+//                            }
+//                        }
+//                    }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//
+//                }
+//            }) {
+//                @Override
+//                public Map<String, String> getParams() {
+//                    Map<String, String> params = new HashMap<String, String>();
+//                    return params;
+//                }
+//                @Override
+//                public Map<String, String> getHeaders() throws AuthFailureError {
+//                    HashMap<String, String> headers = new HashMap<String, String>();
+////                    headers.put("X-Mashape-Key", "lFI4AQonpGmshBMou4yPqjqdM87fp1aUT2ljsnoTV0t6nQvd0J");
+//                    headers.put("X-Mashape-Key", "LjbCM68WI7mshjX1ZvLgKnQBFdVkp1T5DusjsnbfbrG4CN5O2y");
+//                    return headers;
+//                }
+//            };
+//            requestQueue.add(req);
+//        } catch (IOException e) {
+//            displaySnackbarMessage();
+//        }
+//    }
 
     //Display error message
     public void displaySnackbarMessage() {

@@ -14,7 +14,7 @@
 
         <!-- ENABLE THIS FOR THE VARIANT INTERFACES -->
 
-        <!--Spinner
+        <Spinner
         android:id="@+id/adaptiveVariantSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:layout_height="55dp"
             android:background="@drawable/habitonews_logo_header"
             android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"-->
+            android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -46,7 +46,7 @@
                 android:indeterminate="false"
                 android:max="100"
                 android:visibility="gone" />
-        <!--/android.support.v7.widget.Toolbar-->
+        </android.support.v7.widget.Toolbar>
 
         <ListView
             android:id="@+id/mainVerticalList"
@@ -56,4 +56,4 @@
             android:divider="@color/grey"
             android:dividerHeight="1dp" />
     </RelativeLayout>
-</android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/activity_main.xml -->

@@ -1,17 +1,12 @@
 package com.ucl.news.adaptation.adapters;
 
-import main.java.org.mcsoxford.rss.MediaThumbnail;
 import main.java.org.mcsoxford.rss.RSSItem;
 
 import com.ucl.news.adaptation.main.MainActivityReviewers;
-import com.ucl.news.adaptation.main.MainActivityTrackers;
-import com.ucl.news.api.LoggingNavigationBehavior;
-import com.ucl.news.api.NavigationDAO;
 import com.ucl.news.download.BitmapManager;
 import com.ucl.news.main.ArticleActivity;
 import com.ucl.news.reader.News;
 import com.ucl.news.reader.RSSItems;
-import com.ucl.news.utils.AutoLogin;
 import com.ucl.newsreader.R;
 
 import android.app.Activity;
@@ -19,13 +14,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;

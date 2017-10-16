@@ -41,8 +41,8 @@ import com.google.gson.GsonBuilder;
 import com.ucl.news.adaptation.adapters.RowsAdapterDippers;
 import com.ucl.news.adaptation.adapters.TrackersFragment;
 import com.ucl.news.adaptation.dao.LatestReadArticlesDAO;
-import com.ucl.news.api.NavigationDAO;
-import com.ucl.news.api.Session;
+import com.ucl.news.dao.NavigationDAO;
+import com.ucl.news.dao.Session;
 import com.ucl.news.data.NewsDbHelper;
 import com.ucl.news.download.BitmapManager;
 import com.ucl.news.main.ArticleActivity;
@@ -95,6 +95,8 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+
+		System.out.println("on create trackers after resume");
 
 		setContentView(R.layout.tracker_layout);
 
@@ -356,6 +358,7 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
 	protected void onResume() {
 		super.onResume();
 
+		System.out.println("resume trackers");
 		if (!CallingFromArticleActivity) {
 			String updateCredentials;
 			updateCredentials = "YES"
@@ -613,7 +616,7 @@ public class MainActivityTrackers extends FragmentActivity implements AsyncRespo
                             item.getLink().toString());
                     intent.putExtra(EXTRA_MESSAGE, rss);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 //					intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     context.startActivity(intent);
                 }

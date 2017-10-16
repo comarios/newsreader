@@ -12,10 +12,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.ucl.news.api.LoginDAO;
-import com.ucl.news.main.LoginActivity;
+import com.ucl.news.dao.RegistrationDAO;
 import com.ucl.news.main.QuestionnaireActivity;
-import com.ucl.news.main.RegistrationActivity;
+import com.ucl.news.utils.Constants;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -36,7 +35,7 @@ public class RegistrationHttpPostTask {
 		task = new HttpAsyncTask();
 		task.setMainActivity(start);
 		task.setRegistrationDAO(_registration);
-		task.execute("http://habito.cs.ucl.ac.uk:9000/users/addUser");
+		task.execute(Constants.SERVER + Constants.USERS_API + Constants.ADD_USER);
 	}
 
 	public boolean taskfinished() {
@@ -184,6 +183,12 @@ public class RegistrationHttpPostTask {
 			}
 			try {
 				jsonObject.accumulate("q5_location", registration.getQ5_location());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				jsonObject.accumulate("q6_timeofday", registration.getQ6_timeofday());
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

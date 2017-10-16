@@ -25,12 +25,12 @@ package main.java.org.mcsoxford.rss;
 class RSSHandler extends org.xml.sax.helpers.DefaultHandler {
 
   /**
-   * Constant for XML element name which identifies RSS items.
+   * Constants for XML element name which identifies RSS items.
    */
   private static final String RSS_ITEM = "item";
 
   /**
-   * Constant symbol table to ensure efficient treatment of handler states.
+   * Constants symbol table to ensure efficient treatment of handler states.
    */
   private final java.util.Map<String, Setter> setters;
 

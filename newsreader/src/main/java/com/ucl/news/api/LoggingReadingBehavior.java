@@ -12,7 +12,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.ucl.news.dao.ArticleDAO;
 import com.ucl.news.main.ArticleActivity;
+import com.ucl.news.utils.Constants;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -34,7 +36,7 @@ public class LoggingReadingBehavior {
 		task = new HttpAsyncTask();
 		task.setMainActivity(start);
 		task.setArticleDAO(_readingBehavior);
-		task.execute("http://habito.cs.ucl.ac.uk:9000/users/storeReadingBehavior");
+		task.execute(Constants.SERVER + Constants.NEWS_BEHAVIOR_API + Constants.READING);
 	}
 
 	public boolean taskfinished() {

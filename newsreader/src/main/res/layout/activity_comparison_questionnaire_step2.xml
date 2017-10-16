@@ -1,0 +1,212 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinatorLayoutComparison_Questionnaire_Step2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/habitonews_signup"
+    android:orientation="vertical"
+    android:scaleType="centerCrop">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <ProgressBar
+            android:id="@+id/progressBarComparisonQuestionnaire_Step2"
+            style="@android:style/Widget.ProgressBar.Inverse"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:minHeight="50dp"
+            android:minWidth="200dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/comparison_txtQuest6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/comparison_question6"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/comparison_quest6"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/comparison_txtQuest6"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/rectangle_shape_white"
+            android:drawSelectorOnTop="true"
+            android:ems="15"
+            android:entries="@array/comparison_answers"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/light_grey"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/comparison_txtQuest7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/comparison_quest6"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/comparison_question7"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/comparison_quest7"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/comparison_txtQuest7"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/rectangle_shape_white"
+            android:drawSelectorOnTop="true"
+            android:ems="15"
+            android:entries="@array/comparison_answers"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/light_grey"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/comparison_txtQuest8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/comparison_quest7"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/comparison_question8"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/comparison_quest8"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/comparison_txtQuest8"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/rectangle_shape_white"
+            android:drawSelectorOnTop="true"
+            android:ems="15"
+            android:entries="@array/comparison_answers"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/light_grey"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/comparison_txtQuest9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/comparison_quest8"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/comparison_question9"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/comparison_quest9"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/comparison_txtQuest9"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/rectangle_shape_white"
+            android:drawSelectorOnTop="true"
+            android:ems="15"
+            android:entries="@array/comparison_answers"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/light_grey"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/comparison_txtQuest10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/comparison_quest9"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/comparison_question10"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/comparison_quest10"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/comparison_txtQuest10"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/rectangle_shape_white"
+            android:drawSelectorOnTop="true"
+            android:ems="15"
+            android:entries="@array/comparison_answers"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/light_grey"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnComparison_Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/btnComparison_Submit"
+            android:layout_marginLeft="77dp"
+            android:layout_marginStart="75dp"
+            android:layout_toEndOf="@+id/progressBarComparisonQuestionnaire_Step2"
+            android:background="@drawable/rectangle_shape_red"
+            android:gravity="center"
+            android:text="@string/cancel_registration"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnComparison_Submit"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="39dp"
+            android:layout_marginEnd="56dp"
+            android:layout_marginLeft="47dp"
+            android:background="@drawable/rectangle_shape_red"
+            android:gravity="center"
+            android:text="@string/submit_registration"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -27,7 +27,7 @@ import android.widget.ProgressBar;
 
 import com.ucl.news.adapters.TabPagerAdapter;
 import com.ucl.news.adapters.ViewPagerAdapter;
-import com.ucl.news.api.ArticleDAO;
+import com.ucl.news.dao.ArticleDAO;
 import com.ucl.news.articles.ArticleWebView;
 import com.ucl.news.articles.ArticleWebView.OnBottomReachedListener;
 import com.ucl.news.dao.ArticleMetaDataDAO;
@@ -35,6 +35,9 @@ import com.ucl.news.reader.RSSItems;
 import com.ucl.news.utils.AutoLogin;
 import com.ucl.newsreader.R;
 import android.support.v7.widget.Toolbar;
+import com.ucl.news.api.LoggingReadingBehavior;
+import com.ucl.news.api.LoggingReadingScroll;
+import java.util.concurrent.TimeUnit;
 
 public class ArticleActivity extends AppCompatActivity implements
 		OnBottomReachedListener {
@@ -85,6 +88,7 @@ public class ArticleActivity extends AppCompatActivity implements
         });
 
 		if (featureList != null) {
+
             webView.setVisibility(View.INVISIBLE);
 			//Get an array of 3 tab names based on the features in the rule
 			String[] tabNames = extractFeatures(featureList);
@@ -120,7 +124,9 @@ public class ArticleActivity extends AppCompatActivity implements
 
 				}
 			});
-		} else {
+		}
+		//else {
+
 
 			final RSSItems rss = getIntent().getParcelableExtra(
 					ViewPagerAdapter.EXTRA_MESSAGE);
@@ -152,7 +158,8 @@ public class ArticleActivity extends AppCompatActivity implements
 
 			startReading = new Date().getTime();
 			aDAO.setStartTimestamp(startReading);
-		}
+
+		//}
 	}
 
     //Extract tab names from featureList
@@ -200,7 +207,7 @@ public class ArticleActivity extends AppCompatActivity implements
 		super.onBackPressed();
 
 		endReading = new Date().getTime();
-		/*aDAO.setEndTimestamp(endReading);
+		aDAO.setEndTimestamp(endReading);
 		aDAO.setReadingDuration(TimeUnit.MILLISECONDS.toSeconds(endReading
 				- startReading));
 		aDAO.setNumberOfWordsInArticle(numberOfWordsInArticle);
@@ -211,7 +218,7 @@ public class ArticleActivity extends AppCompatActivity implements
 		LoggingReadingBehavior loggingReadingBehavior = new LoggingReadingBehavior(getApplicationContext(), this, aDAO);
 
 		//Store Reading Scroll (e.g. precise scroll positions)
-		LoggingReadingScroll loggingReadingScroll = new LoggingReadingScroll(getApplicationContext(), this, articleMetaData);*/
+		LoggingReadingScroll loggingReadingScroll = new LoggingReadingScroll(getApplicationContext(), this, articleMetaData);
 
 		MainActivity.CallingFromArticleActivity = true;
 	}
@@ -277,7 +284,6 @@ public class ArticleActivity extends AppCompatActivity implements
 
 			try {
 				doc = Jsoup.connect(params[0]).get();
-                //regex to remove tags
 
 				System.out.println("################");
 				//System.out.println("TESTINGDOC"+doc);

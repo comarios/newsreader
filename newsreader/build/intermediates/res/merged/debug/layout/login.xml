@@ -103,4 +103,4 @@
             android:layout_alignStart="@+id/btnSignIn"
             android:layout_alignEnd="@+id/btnSignIn" />
     </RelativeLayout>
-</android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/login.xml -->

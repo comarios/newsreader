@@ -2,9 +2,8 @@ package com.ucl.news.logging;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
-import com.ucl.news.api.ArticleDAO;
+import com.ucl.news.dao.ArticleDAO;
 import com.ucl.news.main.ArticleActivity;
 
 import android.app.Service;
@@ -14,10 +13,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.widget.Toast;
-import android.text.method.ScrollingMovementMethod;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.MotionEvent;
 
 public class Logger extends Service {
 

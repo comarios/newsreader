@@ -6,8 +6,6 @@ package com.ucl.news.main;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,7 +32,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ucl.adaptationmechanism.AdaptInterfaceActivity;
 import com.ucl.news.adapters.ViewPagerAdapter;
-import com.ucl.news.api.ArticleDAO;
+import com.ucl.news.dao.ArticleDAO;
 import com.ucl.news.articles.ArticleWebView;
 import com.ucl.news.dao.ArticleMetaDataDAO;
 import com.ucl.news.reader.RSSItems;
@@ -54,8 +52,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.ucl.news.main.ArticleActivity.articleMetaData;
 
 public class LevelOneTab extends Fragment {
 
@@ -154,10 +150,9 @@ public class LevelOneTab extends Fragment {
         @Override
         protected String doInBackground(String... params) {
 
-            //Document doc;
-
             String htmlcode = "";
 
+            System.out.println("ParseHTML");
             System.out.println("hereHTML: " + htmlcode);
 
             try {
@@ -184,18 +179,9 @@ public class LevelOneTab extends Fragment {
 //				}catch (JSONException e) {
 //					e.printStackTrace();
 //				}
-//
-//
-//				Log.e("sizescript", scriptElements.size()+"");
-//
-//				Log.e("element", scriptElements.first().html());
-//
-//
-//				Log.e("sizescript", scriptElements.size()+"");
+
 
                 Elements el = doc.select("div#orb-footer");
-                Log.e("el size: ", el.size() + "");
-                Log.e("el first: ", el.first().html() + "");
 
                 doc.select("script").remove();
                 doc.select("div.tags-container").remove();
@@ -250,37 +236,18 @@ public class LevelOneTab extends Fragment {
                 doc.select("section#multi-thumb-promo-1").remove();
                 doc.select("section#get-inspired").remove();
 
-                // System.out
-                // .println("image size: " + doc.select("figure").size());
-                // // doc.select("div#most-popular").remove();
-                // doc.select("div.layout-block-b").remove();
-                // doc.select("div.share-body-bottom").remove();
-                // doc.select("div#page-bookmark-links-head").remove();
-                // doc.select("div#id-status-nav").remove();
-                // doc.select("div#blq-sign-in").remove();
-                // doc.select("div#blq-acc-links").remove();
-                // doc.select("div#blq-nav").remove();
-                // doc.select("div#related-services").remove();
-                // doc.select("div#news-related-sites").remove();
-                // doc.select("div#blq-foot").remove();
-                // doc.select("div#header-wrapper").remove();
-                // doc.select("div#blq-masthead").remove();
-                // //doc.select("div#blq-container-outer").remove();
-                //
-                //
-                // // Remove new stuff added
-                // doc.select("div#blq-global").remove();
-                // doc.select("div.story-related").remove();
+                doc.select("div.site-brand site-brand--height").remove();
+                doc.select("div.with-extracted-share-icons").remove();
+                doc.select("div.container-width-only").remove();
+                doc.select("div#breaking-news-container").remove();
+                doc.select("div#bbccom_leaderboard_1_2_3_4").remove();
+
                 htmlcode = doc.html();
-                // System.out.println(doc);
 
                 System.out.println("hereDOC: " + doc.toString());
 
-                //Log.v("HTMLCODE", htmlcode);
-
                 numberOfWordsInArticle = countWords(htmlcode);
 
-                // System.out.println("countWords4: " + numberOfWordsInArticle);
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -326,7 +293,10 @@ public class LevelOneTab extends Fragment {
             public void onSuccess(String response){
                 doc.select("ul.story-body__unordered-list").remove();
                 doc.select("h2.story-body__crosshead").remove();
+
                 keywordList = createKeywordList(response); //Create the list of keywords from response
+                System.out.println("callback + keyqords:" + keywordList);
+
                 if (type.equals("highlightTerms")) {
                     highlight();
                 } else if (type.equals("keywords")) {
@@ -357,6 +327,7 @@ public class LevelOneTab extends Fragment {
     public void wordCloud(String story){
         //Correct format for API
         final String storyText = story.replaceAll("\\.", " ").replaceAll("[^a-zA-Z0-9\\s]", "");
+
         RequestQueue requestQueue = null;
         if(isAdded()) {
             requestQueue = Volley.newRequestQueue(getActivity());
@@ -372,7 +343,12 @@ public class LevelOneTab extends Fragment {
                             doc.select("div.story-body__inner").first().select("p").remove();
                             doc.select("ul.story-body__unordered-list").remove();
                             doc.select("h2.story-body__crosshead").remove();
+
+                            //Remove story's image. keep only the wordcloud image
+//                            doc.select("figure.media-landscape").remove();
                             String cloudURL = response.getString("url");
+                            System.out.println("cloudurl:" + cloudURL);
+
                             doc.select("div.story-body__inner").append("<img src="+cloudURL+"/>");
                             showWebView(doc.html());
                         } catch (JSONException e) {
@@ -422,6 +398,9 @@ public class LevelOneTab extends Fragment {
             p.remove();
         }
         String result = sb.toString();
+
+        System.out.println("inside highlight:" + keywordList);
+
         for(String key:keywordList) {
             result = result.replaceAll("(?i)"+key, "<mark>"+key+"</mark>");
         }
@@ -439,10 +418,11 @@ public class LevelOneTab extends Fragment {
         try {
             jObject = new JSONObject(keywords);
             JSONArray jArray = jObject.getJSONArray("keywords");
+
             for (int i = 0; i < jArray.length(); i++) {
-                JSONObject keywd = jArray.getJSONObject(i);
-                String name = keywd.getString("text");
-                keywordList.add(name);
+//                JSONObject keywd = jArray.getJSONObject(i);
+//                String name = keywd.getString("text");
+                keywordList.add(jArray.get(i).toString());
             }
         } catch(Exception e){
             displaySnackbarMessageForAPI("An error occurred, please refresh the page", "Refresh");
@@ -452,6 +432,8 @@ public class LevelOneTab extends Fragment {
 
     //Call the summary API and format the response to display a summarised paragraph
     public void paragraphSummary(String story){
+
+        System.out.println("before summary:" + story);
         readingLevelUtil.summary(story, new ReadingLevelUtil.VolleyCallback(){
             @Override
             public void onSuccess(String response){

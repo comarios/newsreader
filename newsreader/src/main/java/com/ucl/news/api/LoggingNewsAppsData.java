@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import com.ucl.news.dao.RunningAppsDAO;
 import com.ucl.news.services.NewsAppsService;
+import com.ucl.news.utils.Constants;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -34,7 +35,7 @@ public class LoggingNewsAppsData {
 		task = new HttpAsyncTask();
 		task.setNewsAppsService(start);
 		task.setRunningAppsDAO(_runningNewsApps);
-		task.execute("http://habito.cs.ucl.ac.uk:9000/users/storeRunningNewsApps");
+		task.execute(Constants.SERVER + Constants.NEWS_BEHAVIOR_API + Constants.RUNNING_NEWS_APPS);
 	}
 
 	public boolean taskfinished() {

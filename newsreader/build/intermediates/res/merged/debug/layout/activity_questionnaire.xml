@@ -43,7 +43,7 @@
         <Spinner
             android:id="@+id/quest1"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_below="@+id/txtQuest1"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -74,7 +74,7 @@
         <Spinner
             android:id="@+id/quest2"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_below="@+id/txtQuest2"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -104,7 +104,7 @@
         <Spinner
             android:id="@+id/quest3"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_below="@+id/txtQuest3"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -134,7 +134,7 @@
         <Spinner
             android:id="@+id/quest4"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_below="@+id/txtQuest4"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -164,7 +164,7 @@
         <Spinner
             android:id="@+id/quest5"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_below="@+id/txtQuest5"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -178,6 +178,35 @@
             android:textSize="12sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/txtQuest6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/quest5"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/question6"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/quest6"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/txtQuest6"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/rectangle_shape_white"
+            android:drawSelectorOnTop="true"
+            android:ems="15"
+            android:entries="@array/question6_answers"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/light_grey"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnQUestionnaireCancel"
@@ -211,4 +240,4 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
-</android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/activity_questionnaire.xml -->

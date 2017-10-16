@@ -24,6 +24,9 @@
     <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.hardware.location.gps" />
+    <uses-permission
+        android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
+        android:protectionLevel="signature" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -129,6 +132,26 @@
             android:name="com.ucl.news.main.ConsentForm"
             android:label="@string/title_activity_constent_form" />
         <activity android:name="com.ucl.adaptationmechanism.AdaptInterfaceActivity" />
+        <activity
+            android:name="com.ucl.study.SUS_Questionnaire_Step1"
+            android:label="@string/title_activity_sus_questionnaire_step1"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="com.ucl.study.SUS_Questionnaire_Step2"
+            android:label="@string/title_activity_sus_questionnaire_step2"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="com.ucl.study.ComparisonQuestionnaire_Step1"
+            android:label="@string/title_activity_comparison_questionnaire_step1"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="com.ucl.study.ComparisonQuestionnaire_Step2"
+            android:label="@string/title_activity_comparison_questionnaire_step2"
+            android:theme="@style/AppTheme" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

@@ -4,17 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.org.mcsoxford.rss.MediaThumbnail;
 import main.java.org.mcsoxford.rss.RSSItem;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.LayoutParams;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +23,8 @@ import android.widget.TextView;
 
 import com.ucl.news.adaptation.dao.LatestReadArticlesDAO;
 import com.ucl.news.api.LoggingNavigationBehavior;
-import com.ucl.news.api.NavigationDAO;
-import com.ucl.news.articles.ArticleWebView;
+import com.ucl.news.dao.NavigationDAO;
 import com.ucl.news.download.BitmapManager;
-import com.ucl.news.lazyloading.ImageLoader;
 import com.ucl.news.main.ArticleActivity;
 import com.ucl.news.main.MainActivity;
 import com.ucl.news.reader.RSSItems;

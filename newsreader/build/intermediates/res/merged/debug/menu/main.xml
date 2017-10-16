@@ -11,15 +11,15 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/action_logout"/>
 
-    <item android:id="@+id/action_Trackers"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/action_trackers"/>
+    <!--<item android:id="@+id/action_Trackers"-->
+        <!--android:showAsAction="ifRoom|withText"-->
+        <!--android:title="@string/action_trackers"/>-->
 
-    <item android:id="@+id/action_Reviewers"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/action_reviewers"/>
+    <!--<item android:id="@+id/action_Reviewers"-->
+        <!--android:showAsAction="ifRoom|withText"-->
+        <!--android:title="@string/action_reviewers"/>-->
 
-    <item android:id="@+id/action_Dippers"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/action_dippers"/>
-</menu>
+    <!--<item android:id="@+id/action_Dippers"-->
+        <!--android:showAsAction="ifRoom|withText"-->
+        <!--android:title="@string/action_dippers"/>-->
+</menu><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/menu/main.xml -->

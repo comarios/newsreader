@@ -19,8 +19,6 @@ import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,7 +28,7 @@ import com.android.volley.toolbox.Volley;
 import com.ucl.adaptationmechanism.AdaptInterfaceActivity;
 import com.ucl.news.adapters.ExpandableListAdapter;
 import com.ucl.news.adapters.ViewPagerAdapter;
-import com.ucl.news.api.ArticleDAO;
+import com.ucl.news.dao.ArticleDAO;
 import com.ucl.news.articles.ArticleWebView;
 import com.ucl.news.dao.ArticleMetaDataDAO;
 import com.ucl.news.reader.RSSItems;
@@ -45,10 +43,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LevelTwoTab extends Fragment {
 
@@ -156,20 +155,12 @@ public class LevelTwoTab extends Fragment {
         @Override
         protected String doInBackground(String... params) {
 
-            //Document doc;
 
             String htmlcode = "";
 
-            System.out.println("hereHTML: " + htmlcode);
-
             try {
                 doc = Jsoup.connect(params[0]).get();
-                //regex to remove tags
 
-                System.out.println("################");
-                //System.out.println("TESTINGDOC"+doc);
-
-                //String scriptContent;
 
 //				Elements scriptElements = doc.select("script");
 //				try{
@@ -186,18 +177,8 @@ public class LevelTwoTab extends Fragment {
 //				}catch (JSONException e) {
 //					e.printStackTrace();
 //				}
-//
-//
-//				Log.e("sizescript", scriptElements.size()+"");
-//
-//				Log.e("element", scriptElements.first().html());
-//
-//
-//				Log.e("sizescript", scriptElements.size()+"");
 
                 Elements el = doc.select("div#orb-footer");
-                Log.e("el size: ", el.size() + "");
-                Log.e("el first: ", el.first().html() + "");
 
                 doc.select("script").remove();
                 doc.select("div.tags-container").remove();
@@ -252,38 +233,17 @@ public class LevelTwoTab extends Fragment {
                 doc.select("section#multi-thumb-promo-1").remove();
                 doc.select("section#get-inspired").remove();
 
-                // System.out
-                // .println("image size: " + doc.select("figure").size());
-                // // doc.select("div#most-popular").remove();
-                // doc.select("div.layout-block-b").remove();
-                // doc.select("div.share-body-bottom").remove();
-                // doc.select("div#page-bookmark-links-head").remove();
-                // doc.select("div#id-status-nav").remove();
-                // doc.select("div#blq-sign-in").remove();
-                // doc.select("div#blq-acc-links").remove();
-                // doc.select("div#blq-nav").remove();
-                // doc.select("div#related-services").remove();
-                // doc.select("div#news-related-sites").remove();
-                // doc.select("div#blq-foot").remove();
-                // doc.select("div#header-wrapper").remove();
-                // doc.select("div#blq-masthead").remove();
-                // //doc.select("div#blq-container-outer").remove();
-                //
-                //
-                // // Remove new stuff added
-                // doc.select("div#blq-global").remove();
-                // doc.select("div.story-related").remove();
+                doc.select("div.site-brand site-brand--height").remove();
+                doc.select("div.with-extracted-share-icons").remove();
+                doc.select("div.container-width-only").remove();
+                doc.select("div#breaking-news-container").remove();
+                doc.select("div#bbccom_leaderboard_1_2_3_4").remove();
+
                 htmlcode = doc.html();
-                // System.out.println(doc);
 
                 System.out.println("hereDOC: " + doc.toString());
 
-                //Log.v("HTMLCODE", htmlcode);
-
                 numberOfWordsInArticle = countWords(htmlcode);
-
-                // System.out.println("countWords4: " + numberOfWordsInArticle);
-
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -326,13 +286,23 @@ public class LevelTwoTab extends Fragment {
 
     //Add a stylesheet to the head of the HTML and apply a gradient to the text
     public void colourGradient(){
+
         Element head = doc.head();
         head.append("<link rel=\"stylesheet\" href=\"file:///android_asset/style.css\">");
         Elements paragraphs = doc.select("div.story-body__inner").select("p");
+
+        System.out.println("paragraphs: " + paragraphs);
+
         for (Element p : paragraphs) {
             p.remove();
-            doc.select("div.story-body__inner").append("<p class=\"gradientText1\">"+p.text()+"</p>");
+//            doc.select("div.story-body__inner").append("<p class=\"gradientText1\">"+p.text()+"</p>");
+//            doc.select("div.story-body__inner").append("<p style=\"background-image: linear-gradient(330deg, blue 0%,  blue 25%, #000066 50%, black 75%, black 100%);color: transparent;-webkit-background-clip: text;background-clip: text;\">"+p.text()+"</p>");
+//            doc.select("div.story-body__inner").append("<p style=\"color:blue;\">"+p.text()+"</p>");
+            doc.select("div.story-body__inner").append("<p style=\"background: #1e5799;background: -moz-linear-gradient(top,  #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);background: -webkit-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%);background: linear-gradient(to bottom,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 );\">"+p.text()+"</p>");
+//            doc.select("div.story-body__inner").append("<p class=\"gradientText3\">"+p.text()+"</p>");
         }
+
+        System.out.println("colour22" + doc);
         showWebView(doc.html());
     }
 
@@ -362,16 +332,20 @@ public class LevelTwoTab extends Fragment {
 
         //Query Wikipedia for top 20 keywords
         if (keywordList != null && keywordList.size() > 0) {
-            for (int i = 0; i < 20; i++) {
-                makeWikiRequest(keywordList.get(i));
+            for (int i = 0; i < keywordList.size(); i++) {
+                makeWikiRequest(keywordList.get(i), keywordList.size());
             }
         }
     }
 
     //Make Wikipedia requests for top 20 keywords in keywords list
-    public void makeWikiRequest(String key) {
+    public void makeWikiRequest(String key, final int keywordsSize) {
         final String queryKey = key.replaceAll(" +", "%20");
         final String url = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch="+queryKey+"&srprop=snippet&srlimit=1&format=json";
+
+
+        System.out.println("wikipedia key" + queryKey);
+        System.out.println("wikipedia url" + url);
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -385,11 +359,26 @@ public class LevelTwoTab extends Fragment {
                                 keywordMap.put(queryKey, Jsoup.parse(response.getJSONObject("query").getJSONArray("search").getJSONObject(0).getString("snippet")).text());
                             }
 
+                            System.out.println("size keywordMap:" + keywordMap.size());
+                            System.out.println("size keywordsSize:" + keywordsSize);
+
+                            for (HashMap.Entry<String,String> entry : keywordMap.entrySet()) {
+                                String key = entry.getKey();
+                                String value = entry.getValue();
+                                System.out.println("key:" + key + ", value:" + value);
+                            }
+
                             //If map is filled, generate accordion
-                            if (keywordMap.size() == 20) {
+                            if (keywordMap.size() == keywordsSize) {
                                 generateAccordion();
                             }
                         } catch (Exception e) {
+                            StringWriter sw = new StringWriter();
+                            PrintWriter pw = new PrintWriter(sw);
+                            e.printStackTrace(pw);
+                            String sStackTrace = sw.toString(); // stack trace as a string
+                            System.out.println("error1: " + sStackTrace);
+
                             displaySnackbarMessageForAPI("Feature could not be loaded. Please check connection and retry", "Retry");
                         }
                     }
@@ -415,7 +404,7 @@ public class LevelTwoTab extends Fragment {
         List<String> list = null;
 
         //Setup list headers from keywordList
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < keywordList.size(); i++) {
             listDataHeader.add(keywordList.get(i));
         }
 
@@ -439,9 +428,9 @@ public class LevelTwoTab extends Fragment {
             jObject = new JSONObject(keywords);
             JSONArray jArray = jObject.getJSONArray("keywords");
             for (int i=0; i<jArray.length(); i++) {
-                JSONObject keywd = jArray.getJSONObject(i);
-                String name = keywd.getString("text");
-                keywordList.add(name);
+//                JSONObject keywd = jArray.getJSONObject(i);
+//                String name = keywd.getString("text");
+                keywordList.add(jArray.get(i).toString());
             }
         } catch(Exception e){
             displaySnackbarMessageForAPI("An error occurred, please refresh the page", "Refresh");
@@ -454,11 +443,11 @@ public class LevelTwoTab extends Fragment {
         readingLevelUtil.summary(story, new ReadingLevelUtil.VolleyCallback() {
             @Override
             public void onSuccess(String response) {
-                String formattedResponse = response.replace("\\n", " ").replace("\\", "").replace(".", ". ").replaceAll("\\.", "<br><br> -");
+                String formattedResponse = response.replace("\\n", " ").replace("\\", "").replace(".", ". ").replaceAll("\\.", "<br><br> •");
                 doc.select("div.story-body__inner").first().select("p").remove();
                 doc.select("ul.story-body__unordered-list").remove();
                 doc.select("h2.story-body__crosshead").remove();
-                doc.select("div.story-body__inner").append("<p>" + "- " + formattedResponse + "</p>");
+                doc.select("div.story-body__inner").append("<p>" + "• " + formattedResponse + "</p>");
                 showWebView(doc.html());
             }
         });

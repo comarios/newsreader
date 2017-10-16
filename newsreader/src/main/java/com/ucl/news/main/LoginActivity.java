@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,10 +22,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.ucl.news.api.LoginDAO;
+import com.ucl.news.dao.LoginDAO;
 import com.ucl.news.api.LoginHttpPostTask;
 import com.ucl.news.utils.AutoLogin;
-import com.ucl.news.utils.Dialogs;
 import com.ucl.news.utils.NetworkConnection;
 import com.ucl.newsreader.R;
 
@@ -52,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
         } else {
+            System.out.println("empike dame");
 
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -143,10 +142,13 @@ public class LoginActivity extends AppCompatActivity {
 
         String userID = null;
 
+        System.out.println("Login result: " + result);
         try {
             JSONObject jObject = new JSONObject(result);
             userID = jObject.getString("UserID");
-            // Log.e("RES2", userID);
+            Log.e("RES2", userID);
+            System.out.println("userID Login:" + userID);
+
         } catch (JSONException e) {
             Log.e("Parse result", e.getLocalizedMessage());
         }

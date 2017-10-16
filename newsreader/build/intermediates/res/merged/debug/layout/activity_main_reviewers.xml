@@ -75,4 +75,4 @@
         android:layout_above="@id/footer" >
     </FrameLayout>
 
-</RelativeLayout>
+</RelativeLayout><!-- From: file:/Users/marios/AndroidStudioProjects/newsreader/newsreader/src/main/res/layout/activity_main_reviewers.xml -->
